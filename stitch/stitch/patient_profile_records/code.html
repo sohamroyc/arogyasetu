@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Profile &amp; Records | Pocket Doctor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f6df0",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 py-3 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">medical_services</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Pocket Doctor</h2>
+</div>
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-0 h-full placeholder:text-slate-400 px-4 rounded-r-lg text-sm font-normal" placeholder="Search medical records..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Consultations</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Records</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Wellness</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile picture showing a smiling professional man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBy_nZTwkiKFIiAybFF2fvXTXggAsR_Om5RoAwjgpV3RaOarjxCKZDAbIPhP1VpIcBOCWkpIp6A9AuM5Mj7Y8o5IvYezrrYx9rXEuip6VakpclxWo6-1nGCwgFcs0R1qnWnGm2zLdNVVFtRKn0_gampFvwqZhs6O92gnTvA6i-rTLiljDQjI2-SWeWoVTtHlOHOe_lOgVy0vOGV20XTPgJzwIifIOBADliKkbp10banGkEXpF7IX8n6EONFHMZyiMauDV2xKLCYhF4");'></div>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-8">
+<!-- Header Section -->
+<div class="flex flex-wrap justify-between items-end gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-tight">Patient Profile &amp; Health Records</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal">Securely manage your medical history, clinical records, and privacy preferences.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-white text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined mr-2 text-lg">download</span>
+                        Export Records
+                    </button>
+<button class="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined mr-2 text-lg">share</span>
+                        Share Securely
+                    </button>
+</div>
+</div>
+<!-- Profile Summary Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 mb-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex gap-6 items-center">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-24 border-4 border-primary/10" data-alt="High resolution profile picture of John Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4xEAuulLbxxHW9_gcI2pFIdQXHUs0hk6P7oLzCcRdKQaBkt5XFqVfZTpjCpV6bpSqE-l7aROUe6hGQKeToYiUaerYRbbtmrnf8DfH5oZwkkX0SMgtbqBDoOgFxpU636ITijo6ux0bAmN6km4dBScTRi34SMS64jVDD3BrTibNdLPUjZnotXkO7ISAnLPOMur8pM02hXBT2PM4OTGD9tEic-eQ5xXL9p-uRwgLHw2-EsYOuvKDcXj1PlFB4MYPL9rmjTLG6YHo_xQ");'></div>
+<div class="absolute bottom-0 right-0 bg-green-500 size-5 rounded-full border-4 border-white dark:border-slate-900"></div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="text-slate-900 dark:text-white text-2xl font-bold">Johnathan Doe</h3>
+<span class="bg-primary/10 text-primary text-[10px] uppercase font-black px-2 py-0.5 rounded">Premium</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Patient ID: PD-99201-X</p>
+<div class="flex items-center gap-4 mt-2">
+<span class="flex items-center text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm mr-1">calendar_today</span> Joined Jan 2023
+                                </span>
+<span class="flex items-center text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm mr-1">update</span> Updated 2h ago
+                                </span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="text-xs font-bold text-slate-600 dark:text-slate-300">HIPAA Compliant Data Center</span>
+</div>
+<button class="w-full py-2 text-sm font-bold text-primary border border-primary/20 hover:bg-primary/5 rounded-lg transition-colors">Edit Clinical Profile</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Health Info -->
+<div class="lg:col-span-1 space-y-8">
+<section>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">vital_signs</span>
+                            Core Health Data
+                        </h2>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="p-4 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<span class="text-slate-500 dark:text-slate-400 text-sm">Blood Type</span>
+<span class="text-slate-900 dark:text-white font-semibold">O Positive (O+)</span>
+</div>
+<div class="p-4 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<span class="text-slate-500 dark:text-slate-400 text-sm">Allergies</span>
+<span class="text-red-500 dark:text-red-400 font-semibold text-right">Peanuts, Penicillin</span>
+</div>
+<div class="p-4 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<span class="text-slate-500 dark:text-slate-400 text-sm">Chronic Conditions</span>
+<span class="text-slate-900 dark:text-white font-semibold">Hypertension</span>
+</div>
+<div class="p-4 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<span class="text-slate-500 dark:text-slate-400 text-sm">Height &amp; Weight</span>
+<span class="text-slate-900 dark:text-white font-semibold">180 cm / 75 kg</span>
+</div>
+<div class="p-4 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<span class="text-slate-500 dark:text-slate-400 text-sm">Emergency Contact</span>
+<span class="text-slate-900 dark:text-white font-semibold text-right">Jane Doe (+1 555-0199)</span>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">security</span>
+                            Privacy &amp; Compliance
+                        </h2>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Third-party Access</p>
+<p class="text-xs text-slate-500">Allow AI analysis of labs</p>
+</div>
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-0.5 top-0.5 size-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Research Data</p>
+<p class="text-xs text-slate-500">Anonymous data sharing</p>
+</div>
+<div class="w-10 h-5 bg-slate-200 dark:bg-slate-700 rounded-full relative">
+<div class="absolute left-0.5 top-0.5 size-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2">
+<div class="flex items-center gap-1 bg-green-500/10 text-green-600 dark:text-green-400 text-[10px] font-bold px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> HIPAA
+                                </div>
+<div class="flex items-center gap-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> GDPR
+                                </div>
+<div class="flex items-center gap-1 bg-slate-500/10 text-slate-600 dark:text-slate-400 text-[10px] font-bold px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[12px]">lock</span> SSL 256-bit
+                                </div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Folders & History -->
+<div class="lg:col-span-2 space-y-8">
+<section>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">folder_shared</span>
+                            Medical Records Repository
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Folder 1 -->
+<div class="group cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="size-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">chat</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">12 FILES</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold mb-1">Consultations</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">AI chat logs &amp; doctor notes</p>
+</div>
+<!-- Folder 2 -->
+<div class="group cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="size-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">radiology</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">4 FILES</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold mb-1">Imaging History</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">X-Rays, MRI &amp; CT Scans</p>
+</div>
+<!-- Folder 3 -->
+<div class="group cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="size-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">lab_panel</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">8 FILES</span>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold mb-1">Lab Results</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400">Bloodwork &amp; Biopsies</p>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-slate-900 dark:text-white text-lg font-bold flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">history</span>
+                                Recent Activity
+                            </h2>
+<button class="text-xs font-bold text-primary hover:underline">View All</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 font-bold">
+<tr>
+<th class="px-6 py-4">Document Name</th>
+<th class="px-6 py-4">Category</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<span class="font-medium text-slate-900 dark:text-slate-200">Annual_Blood_Work_2023.pdf</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Lab Results</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Oct 24, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-500">description</span>
+<span class="font-medium text-slate-900 dark:text-slate-200">General_Checkup_Notes.txt</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Consultation</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Sep 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-purple-500">image</span>
+<span class="font-medium text-slate-900 dark:text-slate-200">Chest_XRay_Digital_Copy.dicom</span>
+</div>
+</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Imaging</td>
+<td class="px-6 py-4 text-slate-500 dark:text-slate-400">Aug 05, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-primary/80"><span class="material-symbols-outlined">visibility</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</main>
+<footer class="border-t border-slate-200 dark:border-slate-800 py-6 mt-12 bg-white dark:bg-background-dark">
+<div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-xl">encrypted</span>
+<span class="text-xs">End-to-End Encrypted Health Records</span>
+</div>
+<div class="flex gap-6">
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-xs text-slate-500 hover:text-primary transition-colors" href="#">Help Center</a>
+</div>
+<p class="text-xs text-slate-500">© 2024 Pocket Doctor AI. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
