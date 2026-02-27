@@ -11,24 +11,14 @@ import MedicationManagerCalendar from './pages/MedicationManagerCalendar';
 import PatientProfileRecords from './pages/PatientProfileRecords';
 import LoginPage from './pages/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage';
+import FloatingChatbotProvider from './components/FloatingChatbotProvider';
 
 const LayoutContainer = ({ children }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const hideBackButton = ["/", "/login", "/create-account"].includes(location.pathname);
-
   return (
     <div className="relative">
-      {!hideBackButton && (
-        <button
-          onClick={() => navigate("/")}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-full shadow-2xl hover:scale-105 transition-transform"
-        >
-          <span className="material-symbols-outlined">home</span>
-          <span className="font-bold pr-1">Back to Dashboard</span>
-        </button>
-      )}
-      {children}
+      <FloatingChatbotProvider>
+        {children}
+      </FloatingChatbotProvider>
     </div>
   );
 }

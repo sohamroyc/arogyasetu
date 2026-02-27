@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { symptomCheckerService } from '../services/api';
+import { Link } from 'react-router-dom';
 
 const AiSymptomCheckerInterface = () => {
     const [messages, setMessages] = useState([
@@ -65,12 +66,12 @@ const AiSymptomCheckerInterface = () => {
                     <header className="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-3">
                         <div className="mx-auto flex max-w-7xl items-center justify-between">
                             <div className="flex items-center gap-8">
-                                <div className="flex items-center gap-3">
+                                <Link to="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white">
                                         <span className="material-symbols-outlined">health_and_safety</span>
                                     </div>
                                     <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Pocket Doctor</h2>
-                                </div>
+                                </Link>
                                 <div className="hidden md:flex">
                                     <label className="relative flex items-center">
                                         <span className="material-symbols-outlined absolute left-3 text-slate-400">search</span>

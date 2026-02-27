@@ -18,7 +18,7 @@ const MainWellnessDashboard = () => {
             <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
                 <div className="flex h-screen overflow-hidden">
                     <aside className="w-64 flex-shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col">
-                        <div className="p-6 flex items-center gap-3">
+                        <Link to="/dashboard" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
                             <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-white">
                                 <span className="material-symbols-outlined">health_and_safety</span>
                             </div>
@@ -26,7 +26,7 @@ const MainWellnessDashboard = () => {
                                 <h1 className="font-bold text-lg leading-tight">Pocket Doctor</h1>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">AI Wellness Hub</p>
                             </div>
-                        </div>
+                        </Link>
                         <nav className="flex-1 px-4 py-4 space-y-1">
                             <Link className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold" to="/">
                                 <span className="material-symbols-outlined">dashboard</span>
