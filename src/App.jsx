@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import AiSymptomCheckerInterface from './pages/AiSymptomCheckerInterface';
 import AiXRayAnalysisTool from './pages/AiXRayAnalysisTool';
 import EmergencyClinicLocator from './pages/EmergencyClinicLocator';
@@ -37,7 +38,7 @@ function App() {
     <Router>
       <LayoutContainer>
         <Routes>
-          <Route path="/" element={<MainWellnessDashboard />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-account" element={<CreateAccountPage />} />
           <Route path="/ai-symptom-checker-interface" element={<AiSymptomCheckerInterface />} />
@@ -45,6 +46,7 @@ function App() {
           <Route path="/emergency-clinic-locator" element={<EmergencyClinicLocator />} />
           <Route path="/first-aid-knowledge-base" element={<FirstAidKnowledgeBase />} />
           <Route path="/health-reports-analytics" element={<HealthReportsAnalytics />} />
+          <Route path="/dashboard" element={<MainWellnessDashboard />} />
           <Route path="/main-wellness-dashboard" element={<MainWellnessDashboard />} />
           <Route path="/medication-manager-calendar" element={<MedicationManagerCalendar />} />
           <Route path="/patient-profile-records" element={<PatientProfileRecords />} />
