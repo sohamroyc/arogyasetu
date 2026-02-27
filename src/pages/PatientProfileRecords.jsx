@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
 
 const PatientProfileRecords = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -399,11 +400,7 @@ const PatientProfileRecords = () => {
                     </nav>
 
                     <div className="flex items-center gap-3">
-                        <button className="w-8 h-8 flex items-center justify-center text-slate-500 hover:bg-slate-100 rounded-full transition-colors"><span className="material-symbols-outlined text-[20px]">notifications</span></button>
-                        <button className="w-8 h-8 flex items-center justify-center text-slate-500 hover:bg-slate-100 rounded-full transition-colors"><span className="material-symbols-outlined text-[20px]">settings</span></button>
-                        <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2 border border-slate-300">
-                            <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=random" alt="Avatar" />
-                        </div>
+                        <HeaderActions />
                     </div>
                 </div>
             </header>

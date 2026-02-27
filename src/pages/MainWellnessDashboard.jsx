@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { patientProfileService } from '../services/api';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
+
 
 const MainWellnessDashboard = () => {
     const [profile, setProfile] = useState({ name: "Loading...", role: "Loading..." });
@@ -81,10 +83,7 @@ const MainWellnessDashboard = () => {
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
-                                <Link to="/emergency-clinic-locator" className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-red-600/20">
-                                    <span className="material-symbols-outlined">emergency</span>
-                                    <span>SOS Emergency</span>
-                                </Link>
+                                <HeaderActions />
                                 <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
                                 <button className="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
                                     <span className="material-symbols-outlined">notifications</span>

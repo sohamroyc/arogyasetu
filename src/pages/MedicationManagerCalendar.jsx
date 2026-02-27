@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
 
 const MedicationManagerCalendar = () => {
     return (
@@ -31,13 +32,7 @@ const MedicationManagerCalendar = () => {
                                 <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Health Records</a>
                             </div>
                             <div className="flex gap-2">
-                                <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                                    <span className="material-symbols-outlined">notifications</span>
-                                </button>
-                                <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                                    <span className="material-symbols-outlined">settings</span>
-                                </button>
-                                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ml-2 border-2 border-primary/20" data-alt="User profile picture with professional appearance" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJbiye0kOv-Itccuz5fShmNq9WKCQPKI5CeLMnkdgunGiIZAkuOXu0TZ_lA2uGJ55T2CDKBkPrFCOI-x9Lb8X5G_1d17LyRuSxUPm3XaJe2dyV5bU4zZ6Ci7cimA_ZmeFpsDq3p_H2FRosX7x_rwFxEGIg-xSqPvEi735Q0x5wJb2FmWcnqa8YHtJqTgmMSKO8WpbInbl9SntAUa4XTnLBYWYJitZdahiGQlvRBUHfNmE97BhDZfhZruFCQ4m37_uSqQ-dZuzo2Dc");'></div>
+                                <HeaderActions />
                             </div>
                         </div>
                     </header>

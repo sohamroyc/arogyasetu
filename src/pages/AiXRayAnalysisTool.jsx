@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
+
 
 const AiXRayAnalysisTool = () => {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -62,12 +64,7 @@ const AiXRayAnalysisTool = () => {
                                 </div>
                                 <input className="block w-full pl-10 pr-3 py-2 border-none bg-slate-100 dark:bg-slate-800 rounded-lg text-sm placeholder-slate-500 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-700 transition-all" placeholder="Search records..." type="text" />
                             </div>
-                            <button className="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-                                <span className="truncate">Upgrade Pro</span>
-                            </button>
-                            <div className="bg-slate-200 dark:bg-slate-700 rounded-full size-10 flex items-center justify-center border-2 border-primary/20 overflow-hidden">
-                                <img className="w-full h-full object-cover" data-alt="Profile picture of a medical professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVFciS93a06vMymgGSYPCtzg-ziAqf1TAlikREAxnNTbqD3-DmQIG-BoBhdqiH1gHJJiz1FwpYZ7ZAxABmRdDGp3z3UygvNT7k1PTqNsSu6EkzmOqC-PnwCgTrsZzhKiQ8pz2fLqIe1muzVa2WK8swU7t6lFhwOGF5Hl9UbXH0Bk7EBb3k5he6y5VZhVZI9Q6AiaAPf0nbpYjWUtfZZqp1uSuE71_wKCDogDNVzeM9HttxWaqaKEpThIX5_pHNfEljmg8ORWpyrMc" />
-                            </div>
+                            <HeaderActions />
                         </div>
                     </header>
                     <main className="flex-1 flex flex-col lg:flex-row p-4 lg:p-6 gap-6 max-w-[1600px] mx-auto w-full">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
 
 const HealthReportsAnalytics = () => {
     return (
@@ -31,14 +32,8 @@ const HealthReportsAnalytics = () => {
                                     <a className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Consultations</a>
                                 </nav>
                                 <div className="flex gap-2">
-                                    <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                                        <span className="material-symbols-outlined">notifications</span>
-                                    </button>
-                                    <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">
-                                        <span className="material-symbols-outlined">settings</span>
-                                    </button>
+                                    <HeaderActions />
                                 </div>
-                                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="User profile picture of a doctor or patient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiZZoUUn5YUhJaYEW9mUjO_-ZRtjL4uqEXdkKHz_hy6GwbY0nIyEWvMKeJDNW-r2CBKS96uS4MYLwcWF5IplatbXMIAK8WbEf5QQpqBMxKWiEzcZ4Yq1zGShzUFn5HAPumhyvKFlJnXAOAqPxQDkGwI5LX_eX8FfH4tbxEp3EWII1wZVz8vTSLWA9lRE9Us8CVAuOcNH62almDR1RX2c1GpCZLgKkN-Z84bGmW-Vzku_OF-AasY-8K3vXbiN-DndaGaBP47bhECUM");'></div>
                             </div>
                         </header>
                         <main className="flex flex-col items-center">

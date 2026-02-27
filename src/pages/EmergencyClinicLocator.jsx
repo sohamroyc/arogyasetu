@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
 
 const EmergencyClinicLocator = () => {
     return (
@@ -29,10 +31,7 @@ const EmergencyClinicLocator = () => {
                                 <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Wellness</a>
                             </nav>
                             <div className="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-6">
-                                <button className="flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold">
-                                    <span>Profile</span>
-                                </button>
-                                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700" data-alt="User profile avatar photo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSm4XRlEzVRwFoo7X5tnYaGQlZeutNCEWmH5jejAOg8MUzcXwz2U3JyZ0s1Ly10383WUcdY-I2cEDbg3nD3xOl4s5doRnU0X1SNvxEBH7zH2dZMSFla6pz_IL7tRFYqlt4Aj2HL6jOWPK4Z80HITluP-BTYDtcC6EH-eQz9aAAPLKKduKOAbu7pK4EAaOfKt-wg2jNSDemMAcfJWt7x7FQzeU91zxPAmGyk1ZdXSG9U7RPRzNPz5nRkVZPnpuZ8llI6CzpM3VS214");'></div>
+                                <HeaderActions />
                             </div>
                         </div>
                     </header>

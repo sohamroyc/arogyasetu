@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import HeaderActions from '../components/HeaderActions';
 
 const FirstAidKnowledgeBase = () => {
     return (
@@ -30,9 +31,7 @@ const FirstAidKnowledgeBase = () => {
                                         <span className="material-symbols-outlined">account_circle</span>
                                     </button>
                                 </div>
-                                <div className="h-10 w-10 rounded-full bg-primary/20 border-2 border-primary overflow-hidden">
-                                    <img className="h-full w-full object-cover" data-alt="Professional medical doctor profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmn5Qu5LmxIBVNW6d3mPYu74ynupALFTlcAzXICi9ltjafgnwZVVI8FwbVHF5yQ_1hd424fp_S5xsZ7mOjgHxjW71OtM4DxHZdqmRredFYPlsA1gKqqFyYWy18aUD0xMLFkbYvNx_EIgPSP9f1UYLG-tluy9TAgw1Y8BZ22GJNuncg8b3zW1v5Q2axPDHGAkhyykk2Zvos8BEodtcoPMqmTqlQRfQQAepIrbJia8tr3tkh_h-R5PhTbXU7-VPXc_j7ybB9W01bh7U" />
-                                </div>
+                                <HeaderActions />
                             </div>
                         </header>
                         <main className="max-w-[1200px] mx-auto w-full px-6 py-10">
