@@ -78,12 +78,19 @@ ArogyaSetu is a modern, privacy-first healthcare web application that revolution
    VITE_GEMINI_API_KEY=your_gemini_api_key_here
    ```
 
-4. **Start the application**
+4. **Run the Mock Backend Server**
+   To enable doctor bookings and data fetching for the First Aid & Clinic features, open a separate terminal and start the JSON server:
+   ```bash
+   npx json-server db.json --port 5000
+   ```
+
+5. **Start the Frontend Application**
+   In your main terminal, start the Vite development server:
    ```bash
    npm run dev
    ```
 
-5. **Access the platform**
+6. **Access the platform**
    Open your browser and navigate to `http://localhost:5173`
 
 ---

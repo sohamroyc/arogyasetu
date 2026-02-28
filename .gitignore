@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+lint_output_utf8.txt
+error.txt
+db.json
+lint_output.txt
+error*.txt

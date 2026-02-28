@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { patientProfileService } from '../services/api';
 import TopHeader from '../components/TopHeader';
 import Footer from '../components/Footer';
+import VitalsDashboard from '../components/VitalsDashboard';
+import ActivitiesDashboard from '../components/ActivitiesDashboard';
+import NutritionDashboard from '../components/NutritionDashboard';
+import SettingsDashboard from '../components/SettingsDashboard';
 
 const MyHealthOverview = () => {
     const navigate = useNavigate();
@@ -23,14 +27,18 @@ const MyHealthOverview = () => {
     }, []);
 
     const renderContent = () => {
+        if (activeTab === 'vitals') return <VitalsDashboard />;
+        if (activeTab === 'activities') return <ActivitiesDashboard />;
+        if (activeTab === 'nutrition') return <NutritionDashboard />;
+        if (activeTab === 'settings') return <SettingsDashboard />;
+
         if (activeTab !== 'overview') {
             return (
                 <div className="flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-slate-200 shadow-sm min-h-[400px]">
                     <span className="material-symbols-outlined text-6xl text-slate-300 mb-4">
-                        {activeTab === 'vitals' ? 'monitor_heart' : activeTab === 'activities' ? 'show_chart' : activeTab === 'nutrition' ? 'apple' : 'settings'}
+                        error_outline
                     </span>
-                    <h2 className="text-xl font-bold text-slate-800 capitalize mb-2">{activeTab} Dashboard</h2>
-                    <p className="text-slate-500 font-medium">This module is currently being updated by the medical AI team.</p>
+                    <h2 className="text-xl font-bold text-slate-800 capitalize mb-2">Not Found</h2>
                     <button onClick={() => setActiveTab('overview')} className="mt-6 border border-blue-600 px-6 py-2 rounded-xl text-blue-600 font-bold hover:bg-blue-50 transition-colors">Return to Overview</button>
                 </div>
             );

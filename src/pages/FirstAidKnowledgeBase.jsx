@@ -1,46 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import Footer from '../components/Footer';
-
-const doctorsMock = [
-    {
-        id: 1,
-        name: "Dr. Aryan Sharma",
-        specialty: "Cardiologist • MBBS, MD (Cardiology)",
-        role: "Senior Cardiologist & Heart Surgeon",
-        experience: "15 years experience overall",
-        location: "Fortis Memorial, Gurugram",
-        fee: "₹800",
-        satisfaction: "98%",
-        stories: "450+",
-        avatar: "https://i.pravatar.cc/150?img=11",
-    },
-    {
-        id: 2,
-        name: "Dr. Meera Iyer",
-        specialty: "Pediatrician • MBBS, DCH",
-        role: "Senior Pediatrician",
-        experience: "10 years experience overall",
-        location: "Max Super Speciality, Saket",
-        fee: "₹600",
-        satisfaction: "96%",
-        stories: "210+",
-        avatar: "https://i.pravatar.cc/150?img=5",
-    },
-    {
-        id: 3,
-        name: "Dr. Vikram Reddy",
-        specialty: "Dermatologist • MD (Derm), DNB",
-        role: "Consultant Dermatologist",
-        experience: "22 years experience overall",
-        location: "Apollo Hospitals, Sarita Vihar",
-        fee: "₹1200",
-        satisfaction: "99%",
-        stories: "890+",
-        avatar: "https://i.pravatar.cc/150?img=8",
-    }
-];
 
 const specialtiesList = [
     { name: "General Physician", icon: "stethoscope" },
@@ -74,11 +35,27 @@ const DoctorListView = ({ onSelectDoctor }) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSpecialty, setSelectedSpecialty] = useState("");
+    const [doctorsMock, setDoctorsMock] = useState([]);
     const [filters, setFilters] = useState({
         availability: [],
         fee: [],
         gender: []
     });
+
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/doctors');
+                if (response.ok) {
+                    const data = await response.json();
+                    setDoctorsMock(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch doctors:", error);
+            }
+        };
+        fetchDoctors();
+    }, []);
 
     // Toggle filter logic
     const toggleFilter = (category, value) => {
@@ -98,9 +75,23 @@ const DoctorListView = ({ onSelectDoctor }) => {
                 doc.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 doc.location.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesSpecialty = selectedSpecialty === "" ? true : doc.specialty.includes(selectedSpecialty);
-            return matchesSearch && matchesSpecialty;
+
+            const matchesAvailability = filters.availability.length === 0 ? true : (doc.availability && doc.availability.some(a => filters.availability.includes(a)));
+            const matchesGender = filters.gender.length === 0 ? true : filters.gender.includes(doc.gender);
+
+            // Fee logic
+            const matchesFee = filters.fee.length === 0 ? true : filters.fee.some(filterFee => {
+                const feeVal = parseInt(doc.fee.replace(/[^0-9]/g, '')) || 0;
+                if (filterFee === 'Free') return feeVal === 0;
+                if (filterFee === '₹0 - ₹500') return feeVal >= 0 && feeVal <= 500;
+                if (filterFee === '₹500 - ₹1000') return feeVal >= 500 && feeVal <= 1000;
+                if (filterFee === '₹1000+') return feeVal >= 1000;
+                return true;
+            });
+
+            return matchesSearch && matchesSpecialty && matchesAvailability && matchesGender && matchesFee;
         });
-    }, [searchQuery, selectedSpecialty]);
+    }, [searchQuery, selectedSpecialty, doctorsMock, filters]);
 
     return (
         <div className="max-w-[1200px] mx-auto px-6 py-8">
@@ -298,12 +289,37 @@ const DoctorDetailView = ({ doctor, onBack }) => {
     const [selectedSlot, setSelectedSlot] = useState(null);
     const [selectedDay, setSelectedDay] = useState(12); // Mock initial day
 
-    const handleConfirmBooking = () => {
+    const handleConfirmBooking = async () => {
         if (!selectedSlot) {
             alert('Please select a time slot to confirm your booking.');
             return;
         }
-        alert(`Booking Confirmed for ${doctor.name} on day ${selectedDay} at ${selectedSlot}!`);
+
+        try {
+            const bookingData = {
+                doctorId: doctor.id,
+                doctorName: doctor.name,
+                day: selectedDay,
+                slot: selectedSlot,
+                fee: doctor.fee
+            };
+
+            const response = await fetch('http://localhost:5000/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData),
+            });
+
+            if (response.ok) {
+                alert(`Booking Confirmed for ${doctor.name} on day ${selectedDay} at ${selectedSlot}!`);
+                onBack();
+            } else {
+                alert('Booking failed. Please try again.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred. Booking failed.');
+        }
     };
 
     return (

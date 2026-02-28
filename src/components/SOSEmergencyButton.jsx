@@ -132,9 +132,9 @@ const SOSEmergencyButton = () => {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={toggleDropdown}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-red-600/20"
+                className="flex items-center gap-2 px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold transition-colors shadow-lg shadow-red-600/20"
             >
-                <span className="material-symbols-outlined">emergency</span>
+                <span className="material-symbols-outlined font-black">emergency</span>
                 <span>SOS Emergency</span>
             </button>
 

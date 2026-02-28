@@ -10,6 +10,16 @@ const MainWellnessDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [profile, setProfile] = useState({ name: user?.name || "Loading...", role: "Loading..." });
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e) => {
+        if (e.key === 'Enter' && searchQuery.trim()) {
+            console.log('Searching for:', searchQuery);
+            // Example navigation
+            // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+            setSearchQuery('');
+        }
+    };
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -85,9 +95,24 @@ const MainWellnessDashboard = () => {
                     <main className="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
                         <header className="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-8 py-4 flex items-center justify-between">
                             <div className="flex-1 max-w-xl">
-                                <div className="relative">
-                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                                    <input className="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-4 py-2 focus:ring-primary focus:border-primary transition-all" placeholder="Search health records, symptoms, or doctors..." type="text" />
+                                <div className="relative group">
+                                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+                                    <input
+                                        className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-10 py-2 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm focus:shadow-md"
+                                        placeholder="Search health records, symptoms, or doctors..."
+                                        type="search"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        onKeyDown={handleSearch}
+                                    />
+                                    {searchQuery && (
+                                        <button
+                                            onClick={() => setSearchQuery('')}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                                        >
+                                            <span className="material-symbols-outlined text-[16px]">close</span>
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
