@@ -55,7 +55,7 @@ const MedicationManagerCalendar = () => {
                                 <div className="size-6 bg-primary rounded-lg flex items-center justify-center text-white">
                                     <span className="material-symbols-outlined text-sm">medical_services</span>
                                 </div>
-                                <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pocket Doctor</h2>
+                                <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">ArogyaSetu</h2>
                             </Link>
                             <label className="flex flex-col min-w-40 !h-10 max-w-64">
                                 <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
@@ -239,10 +239,10 @@ const MedicationManagerCalendar = () => {
                                                     onClick={() => handleRefill(med.id)}
                                                     disabled={med.status === 'Refill Not Ready'}
                                                     className={`text-xs font-bold px-4 py-2 rounded-lg transition-colors shadow-sm ${med.status === 'Refill Urgent'
-                                                            ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20'
-                                                            : med.status === 'Refill Now'
-                                                                ? 'bg-primary/10 hover:bg-primary/20 text-primary'
-                                                                : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed'
+                                                        ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20'
+                                                        : med.status === 'Refill Now'
+                                                            ? 'bg-primary/10 hover:bg-primary/20 text-primary'
+                                                            : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed'
                                                         }`}
                                                 >
                                                     {med.status}
@@ -256,7 +256,7 @@ const MedicationManagerCalendar = () => {
                                         <div className="bg-primary text-white p-2 rounded-lg">
                                             <span className="material-symbols-outlined">psychiatry</span>
                                         </div>
-                                        <p className="text-sm font-medium">Pocket Doctor AI is monitoring your symptom logs for any drug side effects.</p>
+                                        <p className="text-sm font-medium">ArogyaSetu AI is monitoring your symptom logs for any drug side effects.</p>
                                     </div>
                                 </div>
                             </div>

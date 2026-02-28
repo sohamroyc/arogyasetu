@@ -11,6 +11,7 @@ import MedicationManagerCalendar from './pages/MedicationManagerCalendar';
 import PatientProfileRecords from './pages/PatientProfileRecords';
 import LoginPage from './pages/LoginPage';
 import CreateAccountPage from './pages/CreateAccountPage';
+import MyHealthOverview from './pages/MyHealthOverview';
 import FloatingChatbotProvider from './components/FloatingChatbotProvider';
 
 const LayoutContainer = ({ children }) => {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/main-wellness-dashboard" element={<MainWellnessDashboard />} />
           <Route path="/medication-manager-calendar" element={<MedicationManagerCalendar />} />
           <Route path="/patient-profile-records" element={<PatientProfileRecords />} />
+          <Route path="/my-health" element={<MyHealthOverview />} />
         </Routes>
       </LayoutContainer>
     </Router>

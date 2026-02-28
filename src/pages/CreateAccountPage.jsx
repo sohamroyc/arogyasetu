@@ -8,7 +8,7 @@ const CreateAccountPage = () => {
             <header className="flex items-center justify-between px-8 py-4 border-b border-slate-100">
                 <div className="flex items-center gap-2 text-blue-600">
                     <span className="material-symbols-outlined text-2xl">health_and_safety</span>
-                    <span className="text-xl font-bold tracking-tight text-slate-900">Pocket Doctor</span>
+                    <span className="text-xl font-bold tracking-tight text-slate-900">ArogyaSetu</span>
                 </div>
                 <div className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-500">
                     <a href="#" className="hover:text-slate-900 transition-colors">How it Works</a>
@@ -142,7 +142,7 @@ const CreateAccountPage = () => {
 
             {/* Footer */}
             <footer className="text-center py-6 text-[10px] md:text-xs font-medium text-slate-400">
-                © {new Date().getFullYear()} Pocket Doctor AI. All your medical data is stored securely and never shared with third parties without your explicit consent.
+                © {new Date().getFullYear()} ArogyaSetu AI. All your medical data is stored securely and never shared with third parties without your explicit consent.
             </footer>
         </div>
     );

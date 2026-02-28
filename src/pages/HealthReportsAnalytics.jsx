@@ -10,7 +10,7 @@ const HealthReportsAnalytics = () => {
         glucose: { value: 94, change: 4 }
     });
     const handleShare = () => {
-        navigator.clipboard.writeText('Check out my health report on Pocket Doctor!');
+        navigator.clipboard.writeText('Check out my health report on ArogyaSetu!');
         alert('Report link copied to clipboard!');
     };
     const handleGeneratePDF = () => {
@@ -27,7 +27,7 @@ const HealthReportsAnalytics = () => {
                             <div className="flex items-center gap-8">
                                 <Link to="/dashboard" className="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity">
                                     <span className="material-symbols-outlined text-3xl font-bold">medical_services</span>
-                                    <h2 className="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Pocket Doctor</h2>
+                                    <h2 className="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">ArogyaSetu</h2>
                                 </Link>
                                 <label className="flex flex-col min-w-40 h-10 max-w-64">
                                     <div className="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
@@ -301,7 +301,7 @@ const HealthReportsAnalytics = () => {
                             </div>
                         </main>
                         <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 py-6 px-10 flex justify-between items-center bg-white dark:bg-slate-900/50">
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">© 2024 Pocket Doctor AI Healthcare. All data is encrypted and HIPAA compliant.</p>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm">© 2024 ArogyaSetu AI Healthcare. All data is encrypted and HIPAA compliant.</p>
                             <div className="flex gap-6">
                                 <a className="text-slate-400 hover:text-primary text-sm" href="#">Privacy Policy</a>
                                 <a className="text-slate-400 hover:text-primary text-sm" href="#">Terms of Service</a>

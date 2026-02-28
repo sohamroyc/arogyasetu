@@ -47,7 +47,7 @@ const FloatingChatbotProvider = ({ children }) => {
             if (lowercaseQuery.includes("headache") || lowercaseQuery.includes("pain")) {
                 aiResponseContent = "I understand you're experiencing some pain. While I'm an AI, I recommend getting plenty of rest, staying hydrated, and avoiding screen time. If it persists, please use the 'SOS Emergency' or 'Talk to AI Doctor' feature.";
             } else if (lowercaseQuery.includes("hi") || lowercaseQuery.includes("hello")) {
-                aiResponseContent = "Hello! I'm here to help you navigate Pocket Doctor or answer any quick health questions you might have.";
+                aiResponseContent = "Hello! I'm here to help you navigate ArogyaSetu or answer any quick health questions you might have.";
             } else {
                 aiResponseContent = `That's an interesting question about "${userMessage.content}". To get a proper medical analysis, I suggest using our AI Symptom Checker from the dashboard.`;
             }
@@ -84,7 +84,7 @@ const FloatingChatbotProvider = ({ children }) => {
                                 <span className="material-symbols-outlined text-[18px]">smart_toy</span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="font-bold text-sm tracking-wide">Pocket Doctor AI</span>
+                                <span className="font-bold text-sm tracking-wide">ArogyaSetu AI</span>
                                 <span className="text-[10px] text-primary-100 flex items-center gap-1">
                                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span> Online
                                 </span>

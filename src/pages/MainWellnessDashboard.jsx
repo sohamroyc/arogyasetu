@@ -38,7 +38,7 @@ const MainWellnessDashboard = () => {
                                 <span className="material-symbols-outlined">stethoscope</span>
                                 <span>Consultations</span>
                             </Link>
-                            <Link className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" to="/health-reports-analytics">
+                            <Link className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" to="/my-health">
                                 <span className="material-symbols-outlined">monitoring</span>
                                 <span>My Health</span>
                             </Link>

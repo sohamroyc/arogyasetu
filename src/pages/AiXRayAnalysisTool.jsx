@@ -48,7 +48,7 @@ const AiXRayAnalysisTool = () => {
                                 <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
                                     <span className="material-symbols-outlined">medical_services</span>
                                 </div>
-                                <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Pocket Doctor</h2>
+                                <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">ArogyaSetu</h2>
                             </Link>
                             <div className="hidden md:flex items-center gap-6">
                                 <a className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
@@ -281,7 +281,7 @@ const AiXRayAnalysisTool = () => {
                     {/* Footer */}
                     <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-6 px-10">
                         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-                            <p>© 2024 Pocket Doctor AI. All rights reserved.</p>
+                            <p>© 2024 ArogyaSetu AI. All rights reserved.</p>
                             <div className="flex items-center gap-6">
                                 <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
                                 <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>

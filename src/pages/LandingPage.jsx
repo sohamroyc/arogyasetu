@@ -95,9 +95,7 @@ const LandingPage = () => {
             <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
               <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900">
-              Pocket<span className="text-blue-600">Doctor</span>
-            </span>
+            <span className="text-xl font-bold tracking-tight text-slate-900">Arogya</span><span className="text-blue-600">Setu</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -234,7 +232,7 @@ const LandingPage = () => {
               Ready to take control of your health?
             </h2>
             <p className="mt-4 text-slate-400 max-w-lg mx-auto">
-              Join thousands of users who trust Pocket Doctor for smarter, faster, and more accessible healthcare.
+              Join thousands of users who trust ArogyaSetu for smarter, faster, and more accessible healthcare.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <button
@@ -262,10 +260,10 @@ const LandingPage = () => {
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
               <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
             </div>
-            <span className="font-bold text-slate-900">Pocket<span className="text-blue-600">Doctor</span></span>
+            <span className="font-bold text-slate-900">Arogya<span className="text-blue-600">Setu</span></span>
           </div>
           <p className="text-sm text-slate-400">
-            &copy; 2026 Pocket Doctor. Built with care for your well-being.
+            &copy; 2026 ArogyaSetu. Built with care for your well-being.
           </p>
         </div>
       </footer>

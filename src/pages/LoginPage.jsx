@@ -14,7 +14,7 @@ const LoginPage = () => {
 
                 <div className="relative z-10 flex items-center gap-2 mb-16">
                     <span className="material-symbols-outlined text-3xl">health_and_safety</span>
-                    <span className="text-xl font-bold tracking-tight">Pocket Doctor</span>
+                    <span className="text-xl font-bold tracking-tight">ArogyaSetu</span>
                 </div>
 
                 <div className="relative z-10 max-w-lg">
@@ -43,7 +43,7 @@ const LoginPage = () => {
                     {/* Header */}
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-extrabold mb-3">Welcome Back</h2>
-                        <p className="text-slate-500 text-sm">Sign in to your Pocket Doctor account to continue your wellness journey.</p>
+                        <p className="text-slate-500 text-sm">Sign in to your ArogyaSetu account to continue your wellness journey.</p>
                     </div>
 
                     {/* Social Logic */}

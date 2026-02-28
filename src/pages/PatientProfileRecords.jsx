@@ -383,7 +383,7 @@ const PatientProfileRecords = () => {
                     <div className="flex items-center gap-8">
                         <Link to="/dashboard" className="flex items-center gap-2 text-blue-600 hover:opacity-80 transition-opacity">
                             <span className="material-symbols-outlined">health_and_safety</span>
-                            <span className="font-bold text-lg tracking-tight text-slate-900">Pocket Doctor</span>
+                            <span className="font-bold text-lg tracking-tight text-slate-900">ArogyaSetu</span>
                         </Link>
 
                         <div className="hidden lg:flex items-center bg-slate-100 rounded-lg px-3 py-1.5 focus-within:ring-2 focus-within:ring-blue-500">
@@ -418,7 +418,7 @@ const PatientProfileRecords = () => {
                         <a href="#" className="hover:text-slate-600">Terms of Service</a>
                         <a href="#" className="hover:text-slate-600">Contact Support</a>
                     </div>
-                    © 2024 POCKET DOCTOR AI HEALTHCARE SOLUTIONS
+                    © 2024 AROGYASETU AI HEALTHCARE SOLUTIONS
                 </footer>
             )}
         </div>

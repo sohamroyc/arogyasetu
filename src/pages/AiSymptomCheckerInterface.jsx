@@ -118,7 +118,7 @@ const AiSymptomCheckerInterface = () => {
                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
                                     <span className="material-symbols-outlined">health_and_safety</span>
                                 </div>
-                                <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">Pocket Doctor</h2>
+                                <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">ArogyaSetu</h2>
                             </Link>
                         </div>
                         <nav className="hidden items-center gap-8 lg:flex">
@@ -190,7 +190,7 @@ const AiSymptomCheckerInterface = () => {
                                     <div className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-green-500 dark:border-slate-900 animate-pulse"></div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h4 className="font-extrabold text-slate-900 dark:text-white">Pocket AI Assistant</h4>
+                                    <h4 className="font-extrabold text-slate-900 dark:text-white">ArogyaSetu AI Assistant</h4>
                                     <span className="text-xs text-green-600 dark:text-green-400 font-bold tracking-wide">Gemini API Active</span>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@ const AiSymptomCheckerInterface = () => {
                                             <span className="material-symbols-outlined text-lg">smart_toy</span>
                                         </div>
                                         <div className="flex flex-col gap-1 max-w-[85%] sm:max-w-[75%]">
-                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Pocket AI • {msg.timestamp}</span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">ArogyaSetu AI • {msg.timestamp}</span>
                                             <div className="rounded-2xl rounded-tl-none bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 text-[15px] leading-relaxed text-slate-700 dark:text-slate-200 shadow-sm">
                                                 {msg.content}
                                             </div>

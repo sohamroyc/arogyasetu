@@ -13,7 +13,7 @@ const FirstAidKnowledgeBase = () => {
                             <div className="flex items-center gap-8">
                                 <Link to="/dashboard" className="flex items-center gap-3 text-primary hover:opacity-80 transition-opacity">
                                     <span className="material-symbols-outlined text-3xl font-bold">medical_services</span>
-                                    <h2 className="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Pocket Doctor</h2>
+                                    <h2 className="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">ArogyaSetu</h2>
                                 </Link>
                                 <nav className="flex items-center gap-6">
                                     <a className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Analysis</a>
@@ -265,7 +265,7 @@ const FirstAidKnowledgeBase = () => {
                             <div className="flex flex-col items-center gap-4">
                                 <div className="flex items-center gap-2 text-primary/70">
                                     <span className="material-symbols-outlined font-bold">medical_services</span>
-                                    <span className="font-bold">Pocket Doctor</span>
+                                    <span className="font-bold">ArogyaSetu</span>
                                 </div>
                                 <p className="text-slate-500 text-sm max-w-lg italic">Disclaimer: This knowledge base is for educational purposes only. In case of a real medical emergency, always call your local emergency services (911) immediately.</p>
                                 <div className="flex gap-6 mt-4">
@@ -273,7 +273,7 @@ const FirstAidKnowledgeBase = () => {
                                     <a className="text-slate-400 hover:text-primary transition-colors" href="#">Terms of Service</a>
                                     <a className="text-slate-400 hover:text-primary transition-colors" href="#">Contact Support</a>
                                 </div>
-                                <p className="text-slate-400 text-xs mt-6">© 2024 Pocket Doctor AI. All rights reserved.</p>
+                                <p className="text-slate-400 text-xs mt-6">© 2024 ArogyaSetu AI. All rights reserved.</p>
                             </div>
                         </footer>
                     </div>

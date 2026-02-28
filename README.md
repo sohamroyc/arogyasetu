@@ -1,12 +1,12 @@
-# Pocket Doctor AI Healthcare Platform
+# ArogyaSetu AI Healthcare Platform
 
-![Pocket Doctor Home Page](C:\\Users\\SOHAM\\.gemini\\antigravity\\brain\\7b0f27dc-3f1b-415c-a90d-9f89a8c9279f\\pocket_doctor_homepage_1772211333481.png)
+![ArogyaSetu Home Page](C:\\Users\\SOHAM\\.gemini\\antigravity\\brain\\7b0f27dc-3f1b-415c-a90d-9f89a8c9279f\\pocket_doctor_homepage_1772211333481.png)
 
 ---
 
 ## Overview
 
-Pocket Doctor is a **premium‑grade, modern web application** that serves as a comprehensive health‑wellness hub. It combines a sleek glass‑morphism UI, dark mode, and AI‑powered features such as:
+ArogyaSetu is a **premium‑grade, modern web application** that serves as a comprehensive health‑wellness hub. It combines a sleek glass‑morphism UI, dark mode, and AI‑powered features such as:
 
 - Symptom checking (Gemini/OpenAI powered chat interface)
 - X‑ray analysis
