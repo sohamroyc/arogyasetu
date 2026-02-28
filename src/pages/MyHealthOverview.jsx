@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { patientProfileService } from '../services/api';
+import TopHeader from '../components/TopHeader';
 
 const MyHealthOverview = () => {
     const [profile, setProfile] = useState({ name: "Loading...", role: "Loading..." });
@@ -23,35 +24,7 @@ const MyHealthOverview = () => {
             <div className="w-full max-w-[1400px] h-full lg:h-[90vh] bg-slate-50 rounded-3xl shadow-xl flex flex-col overflow-hidden">
 
                 {/* Top Navigation Bar */}
-                <header className="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0 bg-white">
-                    <div className="flex items-center gap-6">
-                        <Link to="/" className="flex items-center gap-2 font-black text-lg cursor-pointer hover:opacity-80">
-                            <span className="bg-blue-600 text-white p-1 rounded-md flex items-center justify-center shadow-md">
-                                <span className="material-symbols-outlined text-[20px]">health_and_safety</span>
-                            </span>
-                            Arogya Setu
-                        </Link>
-                        <div className="hidden md:flex bg-slate-100 rounded-lg items-center px-4 py-2 w-64 lg:w-80 border border-transparent focus-within:border-blue-200 transition-colors">
-                            <span className="material-symbols-outlined text-slate-400 text-sm">search</span>
-                            <input
-                                className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none ml-2 text-slate-700 placeholder:text-slate-400"
-                                placeholder="Search records..."
-                            />
-                        </div>
-                    </div>
-
-                    <nav className="hidden lg:flex items-center gap-10 text-sm font-bold text-slate-500 h-full">
-                        <Link to="/dashboard" className="hover:text-blue-600 transition-colors pb-1 relative top-[2px] border-b-2 border-transparent">Dashboard</Link>
-                        <Link to="/patient-profile-records" className="hover:text-blue-600 transition-colors pb-1 relative top-[2px] border-b-2 border-transparent">Health Records</Link>
-                        <Link to="/health-reports-analytics" className="hover:text-blue-600 transition-colors pb-1 relative top-[2px] border-b-2 border-transparent">Appointments</Link>
-                    </nav>
-
-                    <div className="flex items-center gap-4">
-                        <Link to="/patient-profile-records" className="size-10 rounded-full bg-slate-200 overflow-hidden ring-2 ring-transparent hover:ring-blue-200 cursor-pointer transition-all">
-                            <img src="https://i.pravatar.cc/150?img=11" alt="Profile" className="w-full h-full object-cover" />
-                        </Link>
-                    </div>
-                </header>
+                <TopHeader />
 
                 <div className="flex flex-1 overflow-hidden">
                     {/* Left Sidebar */}

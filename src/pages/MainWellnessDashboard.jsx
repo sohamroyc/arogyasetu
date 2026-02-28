@@ -28,7 +28,7 @@ const MainWellnessDashboard = () => {
                                 <span className="material-symbols-outlined">health_and_safety</span>
                             </div>
                             <div>
-                                <h1 className="font-bold text-lg leading-tight">Pocket Doctor</h1>
+                                <h1 className="font-bold text-lg leading-tight">ArogyaSetu</h1>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">AI Wellness Hub</p>
                             </div>
                         </Link>

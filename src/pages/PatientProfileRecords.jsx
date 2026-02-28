@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import HeaderActions from '../components/HeaderActions';
+import TopHeader from '../components/TopHeader';
 import { useAuth } from '../context/AuthContext';
 
 const PatientProfileRecords = () => {
@@ -420,32 +420,7 @@ const PatientProfileRecords = () => {
     return (
         <div className="bg-slate-50 min-h-screen font-display text-slate-900">
             {/* Top Navigation */}
-            <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-                <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-8">
-                        <Link to="/dashboard" className="flex items-center gap-2 text-blue-600 hover:opacity-80 transition-opacity">
-                            <span className="material-symbols-outlined">health_and_safety</span>
-                            <span className="font-bold text-lg tracking-tight text-slate-900">ArogyaSetu</span>
-                        </Link>
-
-                        <div className="hidden lg:flex items-center bg-slate-100 rounded-lg px-3 py-1.5 focus-within:ring-2 focus-within:ring-blue-500">
-                            <span className="material-symbols-outlined text-sm text-slate-400">search</span>
-                            <input type="text" placeholder="Search records..." className="bg-transparent border-none focus:ring-0 text-sm w-48 py-1 px-2" />
-                        </div>
-                    </div>
-
-                    <nav className="hidden md:flex gap-6 items-center">
-                        <Link to="/" className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">Dashboard</Link>
-                        <Link to="/ai-symptom-checker-interface" className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">Consultations</Link>
-                        <Link to="/health-reports-analytics" className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">Wellness</Link>
-                        <span className="text-sm font-bold text-blue-600 border-b-2 border-blue-600 py-5">Profile</span>
-                    </nav>
-
-                    <div className="flex items-center gap-3">
-                        <HeaderActions />
-                    </div>
-                </div>
-            </header>
+            <TopHeader />
 
             {/* Main Content Area */}
             <main className="max-w-[1200px] mx-auto px-6 py-10">

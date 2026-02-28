@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderActions from '../components/HeaderActions';
+import TopHeader from '../components/TopHeader';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -260,38 +261,7 @@ const EmergencyClinicLocator = () => {
         <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
             <div className="layout-container flex h-screen flex-col">
                 {/* Header */}
-                <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 py-3 bg-white dark:bg-background-dark shrink-0">
-                    <div className="flex items-center gap-8">
-                        <Link to="/dashboard" className="flex items-center gap-3 text-primary hover:opacity-80 transition-opacity">
-                            <span className="material-symbols-outlined text-3xl font-bold">medical_services</span>
-                            <h2 className="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">ArogyaSetu</h2>
-                        </Link>
-                        <label className="flex flex-col min-w-40 h-10 max-w-64">
-                            <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
-                                <div className="text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg" data-icon="search">
-                                    <span className="material-symbols-outlined text-xl">search</span>
-                                </div>
-                                <input
-                                    className="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-0 h-full placeholder:text-slate-500 px-4 rounded-r-lg text-sm"
-                                    placeholder="Search clinics..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-                        </label>
-                    </div>
-                    <div className="flex flex-1 justify-end gap-6 items-center">
-                        <nav className="hidden md:flex items-center gap-6">
-                            <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" to="/dashboard">Dashboard</Link>
-                            <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" to="/ai-x-ray-analysis-tool">Medical Analysis</Link>
-                            <Link className="text-primary text-sm font-bold border-b-2 border-primary py-4" to="/emergency-clinic-locator">Clinic Locator</Link>
-                            <Link className="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" to="/main-wellness-dashboard">Wellness</Link>
-                        </nav>
-                        <div className="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-6">
-                            <HeaderActions />
-                        </div>
-                    </div>
-                </header>
+                <TopHeader />
 
                 {/* Main Content Area */}
                 <main className="flex flex-1 overflow-hidden relative">

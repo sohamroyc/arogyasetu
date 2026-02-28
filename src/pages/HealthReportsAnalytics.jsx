@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import HeaderActions from '../components/HeaderActions';
+import TopHeader from '../components/TopHeader';
 
 const HealthReportsAnalytics = () => {
     const [filter, setFilter] = useState('7'); // days: 7,30,180,custom
@@ -23,33 +23,7 @@ const HealthReportsAnalytics = () => {
                 <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
                     <div className="layout-container flex h-full grow flex-col">
                         {/* Navigation Header */}
-                        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-background-light dark:bg-background-dark sticky top-0 z-50">
-                            <div className="flex items-center gap-8">
-                                <Link to="/dashboard" className="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity">
-                                    <span className="material-symbols-outlined text-3xl font-bold">medical_services</span>
-                                    <h2 className="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">ArogyaSetu</h2>
-                                </Link>
-                                <label className="flex flex-col min-w-40 h-10 max-w-64">
-                                    <div className="flex w-full flex-1 items-stretch rounded-lg h-full overflow-hidden">
-                                        <div className="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4">
-                                            <span className="material-symbols-outlined">search</span>
-                                        </div>
-                                        <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 pl-2 text-sm" placeholder="Search data points..." value="" />
-                                    </div>
-                                </label>
-                            </div>
-                            <div className="flex flex-1 justify-end gap-8">
-                                <nav className="flex items-center gap-6">
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
-                                    <a className="text-primary text-sm font-bold border-b-2 border-primary" href="#">Health Reports</a>
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Wellness</a>
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Consultations</a>
-                                </nav>
-                                <div className="flex gap-2">
-                                    <HeaderActions />
-                                </div>
-                            </div>
-                        </header>
+                        <TopHeader />
                         <main className="flex flex-col items-center">
                             <div className="max-w-[1200px] w-full px-6 py-8">
                                 {/* Page Title & Actions */}

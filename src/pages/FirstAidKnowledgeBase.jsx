@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HeaderActions from '../components/HeaderActions';
+import TopHeader from '../components/TopHeader';
 
 const FirstAidKnowledgeBase = () => {
     return (
@@ -9,31 +9,7 @@ const FirstAidKnowledgeBase = () => {
                 <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
                     <div className="layout-container flex h-full grow flex-col">
                         {/* Navigation Bar */}
-                        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
-                            <div className="flex items-center gap-8">
-                                <Link to="/dashboard" className="flex items-center gap-3 text-primary hover:opacity-80 transition-opacity">
-                                    <span className="material-symbols-outlined text-3xl font-bold">medical_services</span>
-                                    <h2 className="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">ArogyaSetu</h2>
-                                </Link>
-                                <nav className="flex items-center gap-6">
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Analysis</a>
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Wellness</a>
-                                    <a className="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">First Aid</a>
-                                    <a className="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-semibold" href="#">Library</a>
-                                </nav>
-                            </div>
-                            <div className="flex flex-1 justify-end gap-4 items-center">
-                                <div className="flex gap-2">
-                                    <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary/10 transition-colors">
-                                        <span className="material-symbols-outlined">notifications</span>
-                                    </button>
-                                    <button className="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary/10 transition-colors">
-                                        <span className="material-symbols-outlined">account_circle</span>
-                                    </button>
-                                </div>
-                                <HeaderActions />
-                            </div>
-                        </header>
+                        <TopHeader />
                         <main className="max-w-[1200px] mx-auto w-full px-6 py-10">
                             {/* Hero / Search Section */}
                             <div className="flex flex-col gap-6 mb-12 text-center md:text-left">

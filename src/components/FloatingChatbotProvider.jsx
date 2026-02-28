@@ -12,6 +12,11 @@ const FloatingChatbotProvider = ({ children }) => {
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
 
+    // Voice Interaction State
+    const [isListening, setIsListening] = useState(false);
+    const [currentLanguage, setCurrentLanguage] = useState('en-US'); // Default English
+    const recognitionRef = useRef(null);
+
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -22,11 +27,75 @@ const FloatingChatbotProvider = ({ children }) => {
         scrollToBottom();
     }, [messages, isOpen]);
 
+    // Initialize Speech Recognition
+    useEffect(() => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.continuous = false;
+            recognitionRef.current.interimResults = true;
+
+            recognitionRef.current.onresult = (event) => {
+                const currentTranscript = Array.from(event.results)
+                    .map(result => result[0].transcript)
+                    .join('');
+                setInputValue(currentTranscript);
+            };
+
+            recognitionRef.current.onerror = (event) => {
+                console.error("Speech recognition error", event.error);
+                setIsListening(false);
+            };
+
+            recognitionRef.current.onend = () => {
+                setIsListening(false);
+            };
+        } else {
+            console.warn("Speech Recognition API is not supported in this browser.");
+        }
+    }, []);
+
+    // Update language dynamically when user changes it
+    useEffect(() => {
+        if (recognitionRef.current) {
+            recognitionRef.current.lang = currentLanguage;
+        }
+    }, [currentLanguage]);
+
+    const toggleListening = () => {
+        if (!recognitionRef.current) return alert("Speech recognition not supported in this browser. Try Chrome.");
+
+        if (isListening) {
+            recognitionRef.current.stop();
+        } else {
+            setInputValue(''); // Clear old text
+            recognitionRef.current.start();
+            setIsListening(true);
+        }
+    };
+
+    // Text-to-Speech Function (The App Talking Back)
+    const speakText = (text) => {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop anything currently speaking
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentLanguage;
+
+            // Try to find a language-specific voice
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(voice => voice.lang.includes(currentLanguage.split('-')[0]));
+            if (preferredVoice) utterance.voice = preferredVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+    };
+
     const toggleChatbot = () => {
         setIsOpen(!isOpen);
     };
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!inputValue.trim()) return;
 
         const userMessage = {
@@ -35,22 +104,40 @@ const FloatingChatbotProvider = ({ children }) => {
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
 
-        setMessages([...messages, userMessage]);
+        setMessages(prev => [...prev, userMessage]);
         setInputValue("");
         setIsTyping(true);
 
-        // Mock API call
-        setTimeout(() => {
-            let aiResponseContent = "";
+        try {
+            const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
-            const lowercaseQuery = userMessage.content.toLowerCase();
-            if (lowercaseQuery.includes("headache") || lowercaseQuery.includes("pain")) {
-                aiResponseContent = "I understand you're experiencing some pain. While I'm an AI, I recommend getting plenty of rest, staying hydrated, and avoiding screen time. If it persists, please use the 'SOS Emergency' or 'Talk to AI Doctor' feature.";
-            } else if (lowercaseQuery.includes("hi") || lowercaseQuery.includes("hello")) {
-                aiResponseContent = "Hello! I'm here to help you navigate ArogyaSetu or answer any quick health questions you might have.";
-            } else {
-                aiResponseContent = `That's an interesting question about "${userMessage.content}". To get a proper medical analysis, I suggest using our AI Symptom Checker from the dashboard.`;
+            if (!apiKey) {
+                throw new Error("Gemini API key is not configured.");
             }
+
+            const langMap = { 'en-US': 'English', 'hi-IN': 'Hindi', 'bn-IN': 'Bengali' };
+            const languageName = langMap[currentLanguage] || 'English';
+
+            const prompt = `You are the ArogyaSetu AI Health Assistant. You must ONLY answer questions related to health, wellness, first-aid, or medical symptoms. Provide highly concise, easy-to-understand home remedies or simple solutions that a person can easily do themselves. Do not prescribe complex prescription medications. If the user asks a question completely unrelated to health or the ArogyaSetu app, politely refuse to answer. Respond natively in ${languageName}. The user says: ${userMessage.content}`;
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const aiResponseContent = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm sorry, I couldn't generate a response. Please try again.";
 
             const aiResponse = {
                 role: 'ai',
@@ -59,8 +146,20 @@ const FloatingChatbotProvider = ({ children }) => {
             };
 
             setMessages(prev => [...prev, aiResponse]);
+            // Speak the response back in the selected language
+            speakText(aiResponseContent);
+
+        } catch (error) {
+            console.error("Gemini AI integration error:", error);
+            const errorResponse = {
+                role: 'ai',
+                content: "I'm currently unable to connect to the AI network. Make sure your Gemini API key is valid in the .env file.",
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            setMessages(prev => [...prev, errorResponse]);
+        } finally {
             setIsTyping(false);
-        }, 1200);
+        }
     };
 
     const handleKeyPress = (e) => {
@@ -139,20 +238,44 @@ const FloatingChatbotProvider = ({ children }) => {
                     </div>
 
                     {/* Input Area */}
-                    <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                    <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+                        {/* Language Selector */}
+                        <div className="flex justify-between items-center px-1">
+                            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1">
+                                <span className="material-symbols-outlined text-[14px]">translate</span>
+                                Voice Language
+                            </span>
+                            <select
+                                value={currentLanguage}
+                                onChange={(e) => setCurrentLanguage(e.target.value)}
+                                className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold text-slate-600 dark:text-slate-300 text-xs rounded-lg focus:ring-primary focus:border-primary px-2 py-1 outline-none cursor-pointer"
+                            >
+                                <option value="en-US">English</option>
+                                <option value="hi-IN">हिंदी (Hindi)</option>
+                                <option value="bn-IN">বাংলা (Bengali)</option>
+                            </select>
+                        </div>
+
                         <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+                            <button
+                                onClick={toggleListening}
+                                className={`p-3 shrink-0 transition-colors ${isListening ? 'text-red-500 animate-pulse bg-red-50 dark:bg-red-900/20' : 'text-slate-400 hover:text-primary hover:bg-white dark:hover:bg-slate-700'}`}
+                                title={isListening ? "Stop listening" : "Tap to speak"}
+                            >
+                                <span className="material-symbols-outlined">{isListening ? 'mic' : 'mic_none'}</span>
+                            </button>
                             <input
                                 type="text"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleKeyPress}
-                                placeholder="Ask me anything..."
-                                className="flex-1 bg-transparent border-none px-4 py-3 text-sm focus:ring-0 text-slate-800 dark:text-white placeholder:text-slate-400"
+                                placeholder={isListening ? "Listening..." : "Ask me anything..."}
+                                className="flex-1 bg-transparent border-none px-2 py-3 text-sm focus:ring-0 text-slate-800 dark:text-white placeholder:text-slate-400"
                             />
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!inputValue.trim()}
-                                className="p-3 text-primary disabled:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shrink-0"
+                                className="p-3 text-primary disabled:text-slate-400 hover:bg-white dark:hover:bg-slate-700 transition-colors shrink-0"
                             >
                                 <span className="material-symbols-outlined">send</span>
                             </button>
