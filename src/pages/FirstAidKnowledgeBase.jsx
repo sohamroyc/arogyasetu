@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 const doctorsMock = [
     {
@@ -598,60 +599,11 @@ const DoctorDetailView = ({ doctor, onBack }) => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };
 
-const Footer = () => {
-    const navigate = useNavigate();
-    return (
-        <footer className="mt-20 pt-16 pb-8 border-t border-slate-200 bg-slate-50">
-            <div className="max-w-[1200px] mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                    <div>
-                        <div className="flex items-center gap-2 text-blue-600 font-bold tracking-tight text-xl mb-6">
-                            <span className="material-symbols-outlined">health_and_safety</span>
-                            ArogyaSetu
-                        </div>
-                        <p className="text-sm text-slate-500 leading-relaxed font-medium">Redefining healthcare with AI intelligence and professional excellence. Find the best medical help at your fingertips.</p>
-                    </div>
-                    <div>
-                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">For Patients</h5>
-                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
-                            <span className="hover:text-blue-600 cursor-pointer transition-colors" onClick={() => window.scrollTo(0, 0)}>Search Doctors</span>
-                            <span className="hover:text-blue-600 cursor-pointer transition-colors" onClick={() => navigate('/ai-symptom-checker-interface')}>Consult AI Assistant</span>
-                            <Link to="/my-health" className="hover:text-blue-600 transition-colors">Book Appointments</Link>
-                            <Link to="/patient-profile-records" className="hover:text-blue-600 transition-colors">Digital Health Records</Link>
-                        </div>
-                    </div>
-                    <div>
-                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">For Doctors</h5>
-                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
-                            <span className="hover:text-blue-600 transition-colors cursor-pointer">Join as a Professional</span>
-                            <Link to="/ai-x-ray-analysis-tool" className="hover:text-blue-600 transition-colors">AI Diagnostic Tools</Link>
-                            <span className="hover:text-blue-600 transition-colors cursor-pointer">Manage Practice</span>
-                            <Link to="/health-reports-analytics" className="hover:text-blue-600 transition-colors">Patient Analytics</Link>
-                        </div>
-                    </div>
-                    <div>
-                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">Contact</h5>
-                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
-                            <a href="mailto:support@arogyasetu.ai" className="flex items-center gap-2 hover:text-blue-600 transition-colors"><span className="material-symbols-outlined text-[16px]">mail</span> support@arogyasetu.ai</a>
-                            <a href="tel:1800-AROGYA" className="flex items-center gap-2 hover:text-blue-600 transition-colors"><span className="material-symbols-outlined text-[16px]">call</span> 1800-AROGYA</a>
-                        </div>
-                    </div>
-                </div>
 
-                <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-slate-400">
-                    <p>© 2024 Arogya Setu Healthcare Technologies. All rights reserved.</p>
-                    <div className="flex gap-6">
-                        <span className="hover:text-blue-600 transition-colors cursor-pointer">Privacy Policy</span>
-                        <span className="hover:text-blue-600 transition-colors cursor-pointer">Terms of Service</span>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    );
-};
 
 export default FirstAidKnowledgeBase;

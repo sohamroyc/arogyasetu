@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import ReactMarkdown from 'react-markdown';
+import Footer from '../components/Footer';
 
 const AiDermatologist = () => {
     const [messages, setMessages] = useState([
@@ -390,6 +391,7 @@ Ensure there are absolutely NO markdown formatting blocks like \`\`\`json wrappe
 
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

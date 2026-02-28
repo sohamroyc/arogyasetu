@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 const PatientProfileRecords = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -429,14 +430,9 @@ const PatientProfileRecords = () => {
 
             {/* Footer */}
             {!isEditing && (
-                <footer className="text-center py-6 mt-12 border-t border-slate-200 text-xs text-slate-400 font-medium">
-                    <div className="flex justify-center gap-4 mb-2">
-                        <a href="#" className="hover:text-slate-600">Privacy Policy</a>
-                        <a href="#" className="hover:text-slate-600">Terms of Service</a>
-                        <a href="#" className="hover:text-slate-600">Contact Support</a>
-                    </div>
-                    © 2024 AROGYASETU AI HEALTHCARE SOLUTIONS
-                </footer>
+                <div className="mt-12">
+                    <Footer />
+                </div>
             )}
         </div>
     );

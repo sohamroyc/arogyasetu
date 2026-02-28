@@ -3,6 +3,7 @@ import { patientProfileService } from '../services/api';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderActions from '../components/HeaderActions';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 
 const MainWellnessDashboard = () => {
@@ -322,7 +323,8 @@ const MainWellnessDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </main>
+                        <Footer />
+                </main>
                 </div>
 
             </div>

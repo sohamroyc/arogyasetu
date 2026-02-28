@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 const AiSymptomCheckerInterface = () => {
     // Current application state ('specialist_selection' or 'active_chat')
@@ -319,18 +320,7 @@ const AiSymptomCheckerInterface = () => {
             )}
 
             {/* Footer */}
-            <footer className="mt-auto pt-8 pb-4 flex flex-col sm:flex-row items-center justify-between text-xs font-medium text-slate-500 border-t border-slate-200 w-full mt-12">
-                <div className="flex items-center gap-2 mb-4 sm:mb-0">
-                    <span className="material-symbols-outlined text-[14px] text-blue-500">security</span>
-                    <span className="text-slate-900">Arogya Setu AI</span>
-                    <span className="ml-2">© 2024 Arogya Healthcare.</span>
-                </div>
-                <div className="flex gap-6">
-                    <a href="#" className="hover:text-slate-700">Privacy Policy</a>
-                    <a href="#" className="hover:text-slate-700">Terms of Service</a>
-                    <a href="#" className="hover:text-slate-700">Contact Support</a>
-                </div>
-            </footer>
+            <Footer />
 
         </div>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 
 const AiXRayAnalysisTool = () => {
@@ -359,17 +360,7 @@ Return the response ONLY in a valid JSON object structure. Ensure absolutely NO 
                             </div>
                         </aside>
                     </main>
-                    {/* Footer */}
-                    <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-6 px-10">
-                        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-                            <p>© 2024 ArogyaSetu AI. All rights reserved.</p>
-                            <div className="flex items-center gap-6">
-                                <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-                                <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>
-                                <a className="hover:text-primary transition-colors" href="#">HIPAA Compliance</a>
-                            </div>
-                        </div>
-                    </footer>
+                    <Footer />
                 </div>
             </div>
         </>

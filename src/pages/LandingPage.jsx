@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -275,19 +276,7 @@ const LandingPage = () => {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">
-              <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
-            </div>
-            <span className="font-bold text-slate-900">Arogya<span className="text-blue-600">Setu</span></span>
-          </div>
-          <p className="text-sm text-slate-400">
-            &copy; 2026 ArogyaSetu. Built with care for your well-being.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

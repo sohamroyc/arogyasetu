@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -135,10 +136,8 @@ const LoginPage = () => {
                         Don't have an account? <Link to="/create-account" className="text-blue-600 font-bold hover:underline">Create an account</Link>
                     </p>
 
-                    <div className="flex justify-center gap-6 mt-16 text-xs text-slate-400 font-medium">
-                        <a href="#" className="hover:text-slate-600">Privacy Policy</a>
-                        <a href="#" className="hover:text-slate-600">Terms of Service</a>
-                        <a href="#" className="hover:text-slate-600">Help Center</a>
+                    <div className="mt-16">
+                        <Footer />
                     </div>
                 </div>
             </div>

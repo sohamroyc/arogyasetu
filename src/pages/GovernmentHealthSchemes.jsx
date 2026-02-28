@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import ReactMarkdown from 'react-markdown';
+import Footer from '../components/Footer';
 
 const SCHEMES_LIST = [
     {
@@ -741,22 +742,7 @@ Keep your response short, extremely helpful, professional, and directly address 
             </div>
 
             {/* Footer */}
-            <footer className="border-t border-slate-200 bg-white py-10">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-3 opacity-60">
-                        <div className="size-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-                            <span className="material-symbols-outlined text-[16px]">health_and_safety</span>
-                        </div>
-                        <span className="font-bold text-slate-900 tracking-tight">Arogya Setu Portal</span>
-                    </div>
-                    <p className="text-xs text-slate-400 font-medium">© 2024 Arogya Healthcare. Connecting India to better healthcare facilities.</p>
-                    <div className="flex gap-6 text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                        <a href="#" className="hover:text-blue-600">PRIVACY POLICY</a>
-                        <a href="#" className="hover:text-blue-600">STATE PORTALS</a>
-                        <a href="#" className="hover:text-blue-600">GRIEVANCE REDRESSAL</a>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
 
             {/* AI Scheme Finder Modal */}
             {isAiFinderOpen && (

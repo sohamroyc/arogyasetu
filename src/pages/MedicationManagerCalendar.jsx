@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 const MedicationManagerCalendar = () => {
     const [activeTab, setActiveTab] = useState('Month');
@@ -274,10 +275,10 @@ const MedicationManagerCalendar = () => {
                                             onClick={() => handleRefill(med.id)}
                                             disabled={med.status === 'Refill Not Ready'}
                                             className={`text-[11px] font-bold px-3 py-2 rounded-lg transition-all active:scale-95 ${med.status === 'Refill Urgent'
-                                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
-                                                    : med.status === 'Refill Now'
-                                                        ? 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200'
-                                                        : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                                                ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
+                                                : med.status === 'Refill Now'
+                                                    ? 'bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200'
+                                                    : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
                                                 }`}
                                         >
                                             {med.status}
@@ -337,6 +338,7 @@ const MedicationManagerCalendar = () => {
                 </div>
             )}
 
+            <Footer />
         </div>
     );
 }

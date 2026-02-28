@@ -508,7 +508,7 @@ const EmergencyClinicLocator = () => {
                     border: none;
                 }
             `}</style>
-        </div>
+        </div >
     );
 };
 

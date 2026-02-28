@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { patientProfileService } from '../services/api';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 const MyHealthOverview = () => {
     const navigate = useNavigate();
@@ -370,6 +371,7 @@ const MyHealthOverview = () => {
                     </div>
                 </aside>
             </div>
+            <Footer />
         </div>
     );
 };

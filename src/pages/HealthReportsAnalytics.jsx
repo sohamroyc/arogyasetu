@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
+import Footer from '../components/Footer';
 
 const HealthReportsAnalytics = () => {
     const [filter, setFilter] = useState('7'); // days: 7,30,180,custom
@@ -274,14 +275,9 @@ const HealthReportsAnalytics = () => {
                                 </div>
                             </div>
                         </main>
-                        <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 py-6 px-10 flex justify-between items-center bg-white dark:bg-slate-900/50">
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">© 2024 ArogyaSetu AI Healthcare. All data is encrypted and HIPAA compliant.</p>
-                            <div className="flex gap-6">
-                                <a className="text-slate-400 hover:text-primary text-sm" href="#">Privacy Policy</a>
-                                <a className="text-slate-400 hover:text-primary text-sm" href="#">Terms of Service</a>
-                                <a className="text-slate-400 hover:text-primary text-sm" href="#">Support</a>
-                            </div>
-                        </footer>
+                        <div className="mt-auto">
+                            <Footer />
+                        </div>
                     </div>
                 </div>
             </div>

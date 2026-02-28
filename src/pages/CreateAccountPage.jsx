@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 const CreateAccountPage = () => {
     const [step, setStep] = useState(1);
@@ -435,9 +436,7 @@ const CreateAccountPage = () => {
             </main>
 
             {/* Footer */}
-            <footer className="text-center py-6 text-[10px] md:text-xs font-medium text-slate-400">
-                © {new Date().getFullYear()} ArogyaSetu AI. All your medical data is stored securely and never shared with third parties without your explicit consent.
-            </footer>
+            <Footer />
         </div>
     );
 };
