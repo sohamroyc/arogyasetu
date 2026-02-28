@@ -66,7 +66,11 @@ const AiSymptomCheckerInterface = () => {
                 throw new Error("API Key Missing");
             }
 
-            const prompt = `You are an AI acting as a highly professional ${activeSpecialist.name} for the ArogyaSetu project. STRICT INSTRUCTIONS: You must answer in extremely short and concise sentences. Only provide answers related to health, wellness, symptoms, or the ArogyaSetu project itself. If the query is unrelated to health or this project, you MUST refuse to answer politely. Do not prescribe serious medication. The patient says: "${userMsgContent}"`;
+            const prompt = `You are an AI acting as a highly professional ${activeSpecialist.name} for the ArogyaSetu project. 
+CRITICAL RULE: You are strictly a medical/health assistant. You MUST ONLY answer questions that are directly related to the health domain (medical symptoms, diseases, first-aid, wellness, or the ArogyaSetu app itself).
+If the user asks ANY question outside of this health/medical domain (such as general knowledge, coding, math, sports, history, politics, or casual chit-chat), you MUST firmly refuse to answer and state that you can only answer health-related questions.
+Do not prescribe serious medication. Answer in extremely short and concise sentences. 
+The patient says: "${userMsgContent}"`;
 
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
