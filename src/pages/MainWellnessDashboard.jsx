@@ -53,6 +53,10 @@ const MainWellnessDashboard = () => {
                                 <span className="material-symbols-outlined">folder_shared</span>
                                 <span>Health Records</span>
                             </Link>
+                            <Link className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" to="/emergency-clinic-locator">
+                                <span className="material-symbols-outlined">local_hospital</span>
+                                <span>Nearby Clinics</span>
+                            </Link>
                         </nav>
                         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
                             <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 mb-4">
@@ -104,7 +108,7 @@ const MainWellnessDashboard = () => {
                                     <span className="material-symbols-outlined text-primary">bolt</span>
                                     Quick Actions
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
                                     <Link to="/ai-symptom-checker-interface" className="group relative block overflow-hidden bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all cursor-pointer">
                                         <div className="flex justify-between items-start mb-4">
                                             <div className="size-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
@@ -134,6 +138,26 @@ const MainWellnessDashboard = () => {
                                         </div>
                                         <h4 className="font-bold text-lg">Talk to AI Doctor</h4>
                                         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">First aid knowledge and emergency tips anytime.</p>
+                                    </Link>
+                                    <Link to="/ai-dermatologist" className="group relative block overflow-hidden bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all cursor-pointer">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="size-12 rounded-xl bg-pink-100 dark:bg-pink-900/30 text-pink-600 flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-3xl">face</span>
+                                            </div>
+                                            <span className="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">arrow_forward</span>
+                                        </div>
+                                        <h4 className="font-bold text-lg">AI Dermatologist</h4>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Instant skin health assessment and visual analysis.</p>
+                                    </Link>
+                                    <Link to="/government-health-schemes" className="group relative block overflow-hidden bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all cursor-pointer">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="size-12 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-3xl">verified_user</span>
+                                            </div>
+                                            <span className="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">arrow_forward</span>
+                                        </div>
+                                        <h4 className="font-bold text-lg">Health Schemes</h4>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Discover Govt healthcare programs easily.</p>
                                     </Link>
                                 </div>
                             </section>

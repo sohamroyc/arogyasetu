@@ -113,7 +113,7 @@ const EmergencyClinicLocator = () => {
     // Function to fetch real clinics via Overpass API (Free, No Key Needed)
     const fetchRealClinics = async (lat, lng) => {
         setIsLoading(true);
-        const radius = 10000; // 10000 meters = 10km
+        const radius = 25000; // Increased to 25km to reliably find clinics
 
         try {
             setApiMessage("Fetching live clinics nearby...");
@@ -169,11 +169,14 @@ const EmergencyClinicLocator = () => {
                 // Sort by nearest distance first
                 mappedClinics.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
 
-                // Filter out any without names to keep the UI clean
-                const namedClinics = mappedClinics.filter(c => c.name !== "Medical Facility");
+                // Prefer named clinics, but fallback to unnamed if necessary to get 3
+                let finalClinics = mappedClinics.filter(c => c.name !== "Medical Facility");
+                if (finalClinics.length < 3) {
+                    finalClinics = mappedClinics; // Fallback to all including unnamed
+                }
 
                 // Ensure only max 3 nearest items are shown
-                setLiveClinics(namedClinics.slice(0, 3));
+                setLiveClinics(finalClinics.slice(0, 3));
                 setApiMessage(""); // Clear message if successful
             } else {
                 setLiveClinics([]);
@@ -193,14 +196,14 @@ const EmergencyClinicLocator = () => {
         const fetchIPLocation = async () => {
             try {
                 setApiMessage("Checking network location...");
-                const res = await fetch("http://ip-api.com/json/");
+                const res = await fetch("https://get.geojs.io/v1/ip/geo.json");
                 const data = await res.json();
-                if (data.lat && data.lon) {
-                    const lat = data.lat;
-                    const lng = data.lon;
+                if (data.latitude && data.longitude) {
+                    const lat = parseFloat(data.latitude);
+                    const lng = parseFloat(data.longitude);
                     setUserLocation([lat, lng]);
                     setMapCenter([lat, lng]);
-                    setUserLocationName(`${data.city}, ${data.regionName} (Network)`);
+                    setUserLocationName(`${data.city}, ${data.region} (Network)`);
                     fetchRealClinics(lat, lng);
                 } else {
                     throw new Error("Invalid IP Data");

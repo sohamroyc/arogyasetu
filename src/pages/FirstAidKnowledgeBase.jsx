@@ -1,261 +1,656 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 
+const doctorsMock = [
+    {
+        id: 1,
+        name: "Dr. Aryan Sharma",
+        specialty: "Cardiologist • MBBS, MD (Cardiology)",
+        role: "Senior Cardiologist & Heart Surgeon",
+        experience: "15 years experience overall",
+        location: "Fortis Memorial, Gurugram",
+        fee: "₹800",
+        satisfaction: "98%",
+        stories: "450+",
+        avatar: "https://i.pravatar.cc/150?img=11",
+    },
+    {
+        id: 2,
+        name: "Dr. Meera Iyer",
+        specialty: "Pediatrician • MBBS, DCH",
+        role: "Senior Pediatrician",
+        experience: "10 years experience overall",
+        location: "Max Super Speciality, Saket",
+        fee: "₹600",
+        satisfaction: "96%",
+        stories: "210+",
+        avatar: "https://i.pravatar.cc/150?img=5",
+    },
+    {
+        id: 3,
+        name: "Dr. Vikram Reddy",
+        specialty: "Dermatologist • MD (Derm), DNB",
+        role: "Consultant Dermatologist",
+        experience: "22 years experience overall",
+        location: "Apollo Hospitals, Sarita Vihar",
+        fee: "₹1200",
+        satisfaction: "99%",
+        stories: "890+",
+        avatar: "https://i.pravatar.cc/150?img=8",
+    }
+];
+
+const specialtiesList = [
+    { name: "General Physician", icon: "stethoscope" },
+    { name: "Pediatrician", icon: "child_care" },
+    { name: "Cardiologist", icon: "cardiology" },
+    { name: "Dermatologist", icon: "face" },
+    { name: "Neurologist", icon: "psychology" },
+    { name: "Gynecologist", icon: "pregnant_woman" },
+    { name: "Dentist", icon: "dentistry" },
+];
+
 const FirstAidKnowledgeBase = () => {
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
+
     return (
-        <>
-            <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-                <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-                    <div className="layout-container flex h-full grow flex-col">
-                        {/* Navigation Bar */}
-                        <TopHeader />
-                        <main className="max-w-[1200px] mx-auto w-full px-6 py-10">
-                            {/* Hero / Search Section */}
-                            <div className="flex flex-col gap-6 mb-12 text-center md:text-left">
-                                <div className="flex flex-col gap-2">
-                                    <h1 className="text-slate-900 dark:text-slate-100 text-4xl md:text-5xl font-black tracking-tight">First Aid &amp; Learning Center</h1>
-                                    <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl">Instant emergency guides and life-saving tutorials for critical medical situations. Preparedness saves lives.</p>
-                                </div>
-                                <div className="relative w-full max-w-3xl">
-                                    <div className="flex items-center rounded-xl bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 p-2 h-16">
-                                        <span className="material-symbols-outlined text-slate-400 px-4">search</span>
-                                        <input className="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-slate-100 text-lg placeholder:text-slate-400" placeholder="Search for emergency guides (e.g., CPR, burns, choking)..." />
-                                        <button className="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-primary/90 transition-all hidden md:block">Search</button>
-                                    </div>
+        <div className="font-display bg-slate-50 min-h-screen text-slate-900">
+            <TopHeader />
+
+            {selectedDoctor ? (
+                <DoctorDetailView doctor={selectedDoctor} onBack={() => setSelectedDoctor(null)} />
+            ) : (
+                <DoctorListView onSelectDoctor={setSelectedDoctor} />
+            )}
+
+            <Footer />
+        </div>
+    );
+};
+
+const DoctorListView = ({ onSelectDoctor }) => {
+    const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedSpecialty, setSelectedSpecialty] = useState("");
+    const [filters, setFilters] = useState({
+        availability: [],
+        fee: [],
+        gender: []
+    });
+
+    // Toggle filter logic
+    const toggleFilter = (category, value) => {
+        setFilters(prev => {
+            const current = prev[category];
+            const updated = current.includes(value)
+                ? current.filter(item => item !== value)
+                : [...current, value];
+            return { ...prev, [category]: updated };
+        });
+    };
+
+    // Filtered Doctors list
+    const filteredDoctors = useMemo(() => {
+        return doctorsMock.filter(doc => {
+            const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                doc.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                doc.location.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesSpecialty = selectedSpecialty === "" ? true : doc.specialty.includes(selectedSpecialty);
+            return matchesSearch && matchesSpecialty;
+        });
+    }, [searchQuery, selectedSpecialty]);
+
+    return (
+        <div className="max-w-[1200px] mx-auto px-6 py-8">
+            {/* Search Bar */}
+            <div className="flex flex-col md:flex-row gap-4 mb-10 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <div className="flex bg-slate-100/80 rounded-xl px-4 py-3 items-center w-full md:w-[30%] border border-slate-200 focus-within:border-blue-500 transition-colors">
+                    <span className="material-symbols-outlined text-slate-500 mr-3">location_on</span>
+                    <input type="text" className="bg-transparent border-none outline-none w-full text-slate-700 placeholder-slate-400 font-medium" defaultValue="New Delhi, India" />
+                </div>
+                <div className="flex bg-slate-100/80 rounded-xl px-4 py-3 items-center w-full md:w-[50%] border border-slate-200 focus-within:border-blue-500 transition-colors">
+                    <span className="material-symbols-outlined text-slate-500 mr-3">search</span>
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="bg-transparent border-none outline-none w-full text-slate-700 placeholder-slate-400 font-medium"
+                        placeholder="Search Specialty, Doctor name or Hospital"
+                    />
+                </div>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-md shadow-blue-600/20 md:w-[20%]">Find Doctors</button>
+            </div>
+
+            {/* Specialties */}
+            <h2 className="text-xl font-bold mb-6 text-slate-800">Top Specialties</h2>
+            <div className="flex flex-wrap gap-6 mb-12">
+                {specialtiesList.map((spec, i) => {
+                    const isActive = selectedSpecialty === spec.name.split(' ')[0];
+                    return (
+                        <div
+                            key={i}
+                            onClick={() => setSelectedSpecialty(isActive ? "" : spec.name.split(' ')[0])}
+                            className="flex flex-col items-center gap-3 cursor-pointer group"
+                        >
+                            <div className={`w-20 h-20 rounded-full flex items-center justify-center border transition-all shadow-sm ${isActive ? 'bg-blue-100 border-blue-500 shadow-md' : 'bg-blue-50/50 border-slate-200 group-hover:border-blue-300 group-hover:bg-blue-50 group-hover:shadow-md'}`}>
+                                <span className={`material-symbols-outlined text-3xl transition-colors ${isActive ? 'text-blue-700' : 'text-slate-700 group-hover:text-blue-600'}`}>{spec.icon}</span>
+                            </div>
+                            <span className={`text-xs font-bold transition-colors ${isActive ? 'text-blue-700' : 'text-slate-600 group-hover:text-blue-600'}`}>{spec.name}</span>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-8">
+                {/* Filters Sidebar */}
+                <div className="w-full md:w-64 shrink-0 space-y-6">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                        <h3 className="flex items-center gap-2 font-bold text-lg mb-6 text-slate-800">
+                            <span className="material-symbols-outlined text-blue-600">filter_alt</span> Filters
+                        </h3>
+
+                        <div className="space-y-6">
+                            {/* Availability */}
+                            <div>
+                                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">Availability</h4>
+                                <div className="space-y-3">
+                                    {['Available Today', 'Available Tomorrow', 'Next 3 Days'].map((opt, i) => (
+                                        <label key={i} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleFilter('availability', opt)}>
+                                            <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${filters.availability.includes(opt) ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 group-hover:border-blue-500'}`}>
+                                                {filters.availability.includes(opt) && <span className="material-symbols-outlined text-[12px] font-bold">check</span>}
+                                            </div>
+                                            <span className="text-sm text-slate-600 font-medium">{opt}</span>
+                                        </label>
+                                    ))}
                                 </div>
                             </div>
-                            {/* Video Tutorials Section */}
-                            <section className="mb-12">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-primary">play_circle</span>
-                                        <h2 className="text-slate-900 dark:text-slate-100 text-2xl font-bold tracking-tight">Video Tutorials</h2>
-                                    </div>
-                                    <a className="text-primary text-sm font-bold hover:underline" href="#">View All</a>
+
+                            {/* Consultation Fee */}
+                            <div>
+                                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">Consultation Fee</h4>
+                                <div className="space-y-3">
+                                    {['Free', '₹0 - ₹500', '₹500 - ₹1000', '₹1000+'].map((fee, i) => (
+                                        <label key={i} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleFilter('fee', fee)}>
+                                            <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${filters.fee.includes(fee) ? 'bg-blue-600 border-blue-600' : 'border-slate-300 group-hover:border-blue-500'}`}>
+                                                {filters.fee.includes(fee) && <div className="w-1.5 h-1.5 bg-white rounded-full"></div>}
+                                            </div>
+                                            <span className="text-sm text-slate-600 font-medium">{fee}</span>
+                                        </label>
+                                    ))}
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {/* Video Card 1 */}
-                                    <div className="group flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-md transition-shadow">
-                                        <div className="relative w-full aspect-video bg-slate-200 overflow-hidden">
-                                            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Hands demonstrating CPR on a medical mannequin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8ZgCwoFqQDsDKaXSAWcuKXtMcl-YHtne_3egEneCcn7W5_jk0MEwDn9NkfHCkf6TZJ9a4CFYpdQQIHIMs8dK8vYaWE1LQBVFrYtSNcotGdg9oqSBaN09-bG6pRyfywbkF75kAmrLOR27iiMaf2xJs1y3PEmfw7Fou_-t-1KllFt6arhXmJxEDwalmQGtuJOT9e-R3WSq3clViEPvXThQcRZ62JCicqe_TEWZMj2GC_NK-vTfjrhWYcjBlGeGtTGNvTNAxTVtPrLg" />
-                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                                <div className="bg-white/90 rounded-full p-3 shadow-lg group-hover:bg-primary group-hover:text-white transition-colors">
-                                                    <span className="material-symbols-outlined scale-125">play_arrow</span>
-                                                </div>
+                            </div>
+
+                            {/* Gender */}
+                            <div>
+                                <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">Gender</h4>
+                                <div className="space-y-3">
+                                    {['Male', 'Female'].map((gender, i) => (
+                                        <label key={i} className="flex items-center gap-3 cursor-pointer group" onClick={() => toggleFilter('gender', gender)}>
+                                            <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${filters.gender.includes(gender) ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 group-hover:border-blue-500'}`}>
+                                                {filters.gender.includes(gender) && <span className="material-symbols-outlined text-[12px] font-bold">check</span>}
                                             </div>
-                                            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">04:12</span>
-                                        </div>
-                                        <div className="p-4 flex flex-col gap-3">
-                                            <div>
-                                                <h3 className="text-slate-900 dark:text-slate-100 text-lg font-bold">Mastering Hands-Only CPR</h3>
-                                                <p className="text-slate-500 text-sm">Essential steps for cardiac emergencies.</p>
-                                            </div>
-                                            <button className="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-lg hover:bg-primary hover:text-white transition-all text-sm">Watch Now</button>
-                                        </div>
-                                    </div>
-                                    {/* Video Card 2 */}
-                                    <div className="group flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-md transition-shadow">
-                                        <div className="relative w-full aspect-video bg-slate-200 overflow-hidden">
-                                            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Diagram of Heimlich maneuver for choking emergency" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDso99NHetw2dzqPTfafAIx8S4cNvymue_Mr_G1lz3p5_trjCXtXOEi-Ozsy5g0gLuQZuYBO7XCm0Jo9UP72hfAiiQRPnMAKg7O1IUTgoPMlm2Gik_yXNf_ra43DgG2-cPpJQLkBSetbD8szINV--TL64--leDVfI6j8KAeEKxeVGaVPtSdObKYpCdgn8prRuVNg0PtoDzEk4K1YbiuOL8pOEj37cauugS-MxafjLeVlQCq4RVk6-mZ3jR9cq02fq4oq1qiOfnvqVE" />
-                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                                <div className="bg-white/90 rounded-full p-3 shadow-lg group-hover:bg-primary group-hover:text-white transition-colors">
-                                                    <span className="material-symbols-outlined scale-125">play_arrow</span>
-                                                </div>
-                                            </div>
-                                            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">03:45</span>
-                                        </div>
-                                        <div className="p-4 flex flex-col gap-3">
-                                            <div>
-                                                <h3 className="text-slate-900 dark:text-slate-100 text-lg font-bold">Heimlich Maneuver Guide</h3>
-                                                <p className="text-slate-500 text-sm">Clear steps to stop someone from choking.</p>
-                                            </div>
-                                            <button className="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-lg hover:bg-primary hover:text-white transition-all text-sm">Watch Now</button>
-                                        </div>
-                                    </div>
-                                    {/* Video Card 3 */}
-                                    <div className="group flex flex-col gap-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-md transition-shadow">
-                                        <div className="relative w-full aspect-video bg-slate-200 overflow-hidden">
-                                            <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="First aid for thermal burns illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN3fhUV1pxNoYC0hUamxHJYEqraa7f590j4KloY-mZWhwm6b7tBRMrMZHWgPL42gYtXT5Q-qdCRgEkeo0QinDu5iNbkTPnyoTp6gLg5QYyM3O5uwDLCq9vhPGBNddVxec69PkiqZXBrWpz8D6jfgAADI5us4cKSn0mW-bQrQBvtG9miSSCJf5soDVsOvxI9_WClxu5xDbaXheuUbTDa2fk0oHg0g5FbQYv41zL0k5hVNdoKZLW2XUI_PTLs7rsjj4hDi9dDLH9_UQ" />
-                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                                                <div className="bg-white/90 rounded-full p-3 shadow-lg group-hover:bg-primary group-hover:text-white transition-colors">
-                                                    <span className="material-symbols-outlined scale-125">play_arrow</span>
-                                                </div>
-                                            </div>
-                                            <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">05:20</span>
-                                        </div>
-                                        <div className="p-4 flex flex-col gap-3">
-                                            <div>
-                                                <h3 className="text-slate-900 dark:text-slate-100 text-lg font-bold">Treatment for Severe Burns</h3>
-                                                <p className="text-slate-500 text-sm">Proper cooling and dressing techniques.</p>
-                                            </div>
-                                            <button className="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-lg hover:bg-primary hover:text-white transition-all text-sm">Watch Now</button>
-                                        </div>
-                                    </div>
+                                            <span className="text-sm text-slate-600 font-medium">{gender}</span>
+                                        </label>
+                                    ))}
                                 </div>
-                            </section>
-                            {/* Emergency Guides Library */}
-                            <section className="mb-12">
-                                <div className="flex items-center gap-2 mb-6">
-                                    <span className="material-symbols-outlined text-primary">menu_book</span>
-                                    <h2 className="text-slate-900 dark:text-slate-100 text-2xl font-bold tracking-tight">Step-by-Step Guides</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Promo Box */}
+                    <div className="bg-blue-50 rounded-2xl border border-blue-100 p-6 flex flex-col items-start gap-4 shadow-sm relative overflow-hidden">
+                        <div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg relative z-10">
+                            <span className="material-symbols-outlined">smart_toy</span>
+                        </div>
+                        <div className="relative z-10">
+                            <h4 className="font-bold text-slate-800 mb-2">Try AI First?</h4>
+                            <p className="text-xs text-slate-600 leading-relaxed font-medium">Get an instant clinical summary of your symptoms using our medical AI agents before your physical visit.</p>
+                        </div>
+                        <button
+                            onClick={() => navigate('/ai-symptom-checker-interface')}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-2.5 rounded-lg transition-colors mt-2 shadow-md shadow-blue-600/20 relative z-10"
+                        >
+                            Start AI Consultation
+                        </button>
+                    </div>
+                </div>
+
+                {/* Doctor List */}
+                <div className="flex-1 space-y-6">
+                    <div className="flex justify-between items-center mb-2">
+                        <h2 className="text-lg font-bold text-slate-800">Top Rated Doctors in New Delhi</h2>
+                        <span className="text-sm text-slate-500 font-medium">{filteredDoctors.length} matches found</span>
+                    </div>
+
+                    {filteredDoctors.length === 0 && (
+                        <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center">
+                            <span className="material-symbols-outlined text-4xl text-slate-300 mb-2">search_off</span>
+                            <h3 className="text-lg font-bold text-slate-700 mb-1">No Doctors Found</h3>
+                            <p className="text-sm text-slate-500">Try adjusting your filters or search query.</p>
+                        </div>
+                    )}
+
+                    {filteredDoctors.map(doc => (
+                        <div key={doc.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative">
+                            {/* Satisfaction Badge */}
+                            <div className="absolute top-6 right-6 flex flex-col items-end">
+                                <div className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-md flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-[14px]">thumb_up</span> {doc.satisfaction} Satisfaction
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {/* Guide Item 1 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-lg text-red-600">
-                                                <span className="material-symbols-outlined text-3xl">emergency_home</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Bleeding Control</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">How to apply pressure and use tourniquets for severe bleeding.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Guide Item 2 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-lg text-orange-600">
-                                                <span className="material-symbols-outlined text-3xl">electric_bolt</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Seizure Protocol</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">Maintaining safety and positioning during a seizure episode.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Guide Item 3 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg text-blue-600">
-                                                <span className="material-symbols-outlined text-3xl">air</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Allergic Reaction</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">Identifying anaphylaxis and using an epinephrine auto-injector.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Guide Item 4 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg text-green-600">
-                                                <span className="material-symbols-outlined text-3xl">skeleton</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Fractures &amp; Breaks</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">Immobilizing injuries and pain management techniques.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Guide Item 5 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-lg text-purple-600">
-                                                <span className="material-symbols-outlined text-3xl">thermostat</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Heat Stroke</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">Recognizing heat-related illness and rapid cooling methods.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Guide Item 6 */}
-                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors cursor-pointer">
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-yellow-100 dark:bg-yellow-900/30 p-3 rounded-lg text-yellow-600">
-                                                <span className="material-symbols-outlined text-3xl">skull</span>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">Poisoning Treatment</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">What to do if someone ingests harmful substances or chemicals.</p>
-                                                <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                                                    <span>Read Guide</span>
-                                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <span className="text-xs text-slate-400 font-medium mt-1">{doc.stories} Patient Stories</span>
+                            </div>
+
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <div className="w-28 h-28 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200 relative">
+                                    <img src={doc.avatar} alt={doc.name} className="w-full h-full object-cover" />
+                                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
                                 </div>
-                            </section>
-                            {/* Preparation Checklist */}
-                            <section className="bg-primary/5 dark:bg-primary/10 rounded-2xl p-8 border border-primary/20">
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="flex-1">
-                                        <h2 className="text-2xl font-bold mb-4">Be Prepared: First Aid Kit Essentials</h2>
-                                        <p className="text-slate-600 dark:text-slate-400 mb-6">Make sure your home and vehicle are equipped with these life-saving essentials. Download our full checklist.</p>
-                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                                            <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                                                Adhesive bandages in various sizes
-                                            </li>
-                                            <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                                                Sterile gauze pads and tape
-                                            </li>
-                                            <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                                                Antiseptic wipes and ointment
-                                            </li>
-                                            <li className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                <span className="material-symbols-outlined text-primary text-xl">check_circle</span>
-                                                Emergency contact card
-                                            </li>
-                                        </ul>
-                                        <button className="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:shadow-lg transition-all flex items-center gap-2">
-                                            <span className="material-symbols-outlined">download</span>
-                                            Download Full Kit Checklist
+                                <div className="flex flex-col justify-center flex-1 pr-32">
+                                    <h3
+                                        className="text-xl font-bold text-blue-600 hover:underline cursor-pointer mb-1"
+                                        onClick={() => onSelectDoctor(doc)}
+                                    >
+                                        {doc.name}
+                                    </h3>
+                                    <p className="text-sm font-semibold text-slate-700 mb-1">{doc.specialty}</p>
+                                    <p className="text-xs font-medium text-slate-500 mb-3">{doc.experience}</p>
+
+                                    <div className="flex items-center gap-6 text-sm font-semibold text-slate-600">
+                                        <div className="flex items-center gap-1.5 focus:outline-none">
+                                            <span className="material-symbols-outlined text-[16px] text-slate-400">location_on</span>
+                                            {doc.location}
+                                        </div>
+                                        <div className="flex items-center gap-1.5 focus:outline-none">
+                                            <span className="material-symbols-outlined text-[16px] text-slate-400">payments</span>
+                                            {doc.fee} Consultation Fee
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
+                                        <button
+                                            onClick={() => navigate('/ai-symptom-checker-interface')}
+                                            className="w-full max-w-[200px] border border-blue-600 text-blue-600 font-bold text-sm py-2 rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-2 justify-center"
+                                        >
+                                            <span className="material-symbols-outlined text-[18px]">smart_toy</span> Consult AI First
+                                        </button>
+                                        <button
+                                            className="w-full max-w-[200px] bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-2 rounded-lg transition-colors shadow-md shadow-blue-600/20"
+                                            onClick={() => onSelectDoctor(doc)}
+                                        >
+                                            Book In-Person Visit
                                         </button>
                                     </div>
-                                    <div className="w-full md:w-1/3">
-                                        <div className="aspect-square bg-white dark:bg-slate-800 rounded-2xl shadow-xl flex items-center justify-center p-8 overflow-hidden">
-                                            <img className="w-full h-full object-contain rounded-lg" data-alt="Organized medical first aid kit with supplies" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtdljQeXDQYGZ785HiH-Cj6IL3M91XWj0s_oLlsxvl4SeIzcZIKx7s8vgvWV5v6x-8mnE7qjMfBUniYfkB6qLuPRMMPG_SIUeGvp17MECJM00xorEhFp27iT-EvUzcy1pxlB8BVnvpkZixCdXCnGdAGXpUj3hfaFPrMWwnezOz7VzhVmh5vkXPUyrq7DP0UHIej5tzaDib1S6RAWBMFRvAvFHNS31z-CCFDuPcURok9a4z-_lD6OyjD6Lg47dlAqkSl5Qe2YiJViY" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const DoctorDetailView = ({ doctor, onBack }) => {
+    const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState('About');
+    const [selectedSlot, setSelectedSlot] = useState(null);
+    const [selectedDay, setSelectedDay] = useState(12); // Mock initial day
+
+    const handleConfirmBooking = () => {
+        if (!selectedSlot) {
+            alert('Please select a time slot to confirm your booking.');
+            return;
+        }
+        alert(`Booking Confirmed for ${doctor.name} on day ${selectedDay} at ${selectedSlot}!`);
+    };
+
+    return (
+        <div className="max-w-[1200px] mx-auto px-6 py-6 mt-2">
+            {/* Breadcrumb */}
+            <div className="text-xs font-semibold text-slate-500 mb-6 flex items-center gap-2">
+                <Link to="/" className="hover:text-blue-600 cursor-pointer">Home</Link>
+                <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span className="hover:text-blue-600 cursor-pointer" onClick={onBack}>New Delhi</span>
+                <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span className="hover:text-blue-600 cursor-pointer" onClick={onBack}>{doctor.specialty.split('•')[0].trim()}s</span>
+                <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span className="text-slate-800 font-bold">{doctor.name}</span>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-8">
+                {/* Left Content Area */}
+                <div className="flex-1 space-y-8">
+                    {/* Header Card */}
+                    <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm relative">
+                        <div className="absolute top-6 right-6 flex gap-2">
+                            <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-50 text-slate-500 hover:text-blue-600 transition-colors">
+                                <span className="material-symbols-outlined">share</span>
+                            </button>
+                            <button className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-50 text-slate-500 hover:text-red-500 transition-colors">
+                                <span className="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+                        <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
+                            <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200 relative">
+                                <img src={doctor.avatar} alt={doctor.name} className="w-full h-full object-cover" />
+                                <div className="absolute bottom-2 right-2 w-4 h-4 bg-emerald-500 border-[3px] border-white rounded-full"></div>
+                            </div>
+                            <div className="flex flex-col flex-1 pt-2">
+                                <h1 className="text-2xl md:text-3xl font-black text-slate-900 mb-2 tracking-tight">{doctor.name}</h1>
+                                <p className="text-blue-600 font-bold text-sm md:text-base mb-4">{doctor.role}</p>
+
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 text-sm font-semibold text-slate-600 mb-6 flex-wrap">
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><span className="material-symbols-outlined text-[14px]">work</span></div>
+                                        {doctor.experience.replace(' experience overall', '')}
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center"><span className="material-symbols-outlined text-[14px]">location_on</span></div>
+                                        {doctor.location}
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center"><span className="material-symbols-outlined text-[14px]">verified</span></div>
+                                        Medical Registration Verified
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-md flex items-center gap-1">
+                                        <span className="material-symbols-outlined text-[14px]">thumb_up</span> {doctor.satisfaction}
+                                    </span>
+                                    <span className="text-xs font-medium text-slate-500">{doctor.stories} Patient Stories</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Divider Stats */}
+                        <div className="border-t border-slate-100 mt-8 pt-6">
+                            <div className="grid grid-cols-3 divide-x divide-slate-100">
+                                <div className="text-center">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Consultations</p>
+                                    <p className="text-xl font-black text-slate-900">10,000+</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Rating</p>
+                                    <p className="text-xl font-black text-slate-900">4.9/5</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Wait Time</p>
+                                    <p className="text-xl font-black text-slate-900">15 Min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* AI Banner */}
+                    <div className="bg-blue-600 rounded-2xl p-6 flex items-center justify-between text-white shadow-lg shadow-blue-600/20 relative overflow-hidden">
+                        <div className="absolute -right-6 -bottom-6 opacity-10">
+                            <span className="material-symbols-outlined text-[120px]">smart_toy</span>
+                        </div>
+                        <div className="flex items-center gap-4 relative z-10">
+                            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 backdrop-blur-sm">
+                                <span className="material-symbols-outlined text-3xl text-white">smart_toy</span>
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg leading-tight mb-1">Wait! Try our AI Specialist First</h3>
+                                <p className="text-blue-100 text-sm font-medium">Instant diagnosis & medical advice powered by ArogyaSetu AI.</p>
+                            </div>
+                        </div>
+                        <button onClick={() => navigate('/ai-symptom-checker-interface')} className="bg-white text-blue-600 font-bold px-6 py-2.5 rounded-lg hover:shadow-lg transition-all active:scale-95 text-sm relative z-10">
+                            Try for ₹0
+                        </button>
+                    </div>
+
+                    {/* Content Tabs area */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div className="flex border-b border-slate-200">
+                            {['About', 'Feedback', 'Consultations'].map((tab) => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setSelectedTab(tab)}
+                                    className={`flex-1 py-4 text-sm font-bold border-b-2 transition-colors ${selectedTab === tab ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="p-8 space-y-8">
+                            {selectedTab === 'About' && (
+                                <>
+                                    <div>
+                                        <h4 className="font-bold text-lg text-slate-900 mb-3">Professional Summary</h4>
+                                        <p className="text-slate-600 leading-relaxed text-sm font-medium">{doctor.name} is a distinguished specialist with over {doctor.experience.replace(' experience overall', '')} of experience in their field. They specialize in complex procedures, comprehensive management, and preventative care. Having trained at world-renowned institutions, they bring a data-driven yet compassionate approach to patient care.</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-lg text-slate-900 mb-4">Specializations</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {['General Consultation', 'Specialized Care', 'Preventative Medicine', 'Chronic Disease Management'].map((tag, i) => (
+                                                <span key={i} className="px-4 py-2 bg-slate-50 text-slate-700 font-bold border border-slate-200 rounded-full text-xs">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="font-bold text-lg text-slate-900 mb-4">Education & Experience</h4>
+                                        <div className="space-y-6">
+                                            <div className="flex gap-4">
+                                                <div className="mt-1 text-slate-400">
+                                                    <span className="material-symbols-outlined text-[20px]">school</span>
+                                                </div>
+                                                <div>
+                                                    <h5 className="font-bold text-sm text-slate-900">{doctor.specialty.split('•')[1].trim()}</h5>
+                                                    <p className="text-xs text-slate-500 mt-1 font-medium">Top Medical Institution (2005 - 2011)</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-4">
+                                                <div className="mt-1 text-slate-400">
+                                                    <span className="material-symbols-outlined text-[20px]">domain</span>
+                                                </div>
+                                                <div>
+                                                    <h5 className="font-bold text-sm text-slate-900">{doctor.role}</h5>
+                                                    <p className="text-xs text-slate-500 mt-1 font-medium">{doctor.location} (2015 - Present)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                            {selectedTab === 'Feedback' && (
+                                <div>
+                                    <h4 className="font-bold text-lg text-slate-900 mb-3">Patient Feedback</h4>
+                                    <p className="text-slate-600 text-sm">Feedback system loading... (Rating: {doctor.satisfaction} satisfaction)</p>
+                                </div>
+                            )}
+                            {selectedTab === 'Consultations' && (
+                                <div>
+                                    <h4 className="font-bold text-lg text-slate-900 mb-3">Consultation Details</h4>
+                                    <p className="text-slate-600 text-sm">Consultation Fee: {doctor.fee}</p>
+                                    <p className="text-slate-600 text-sm mt-2">Location: {doctor.location}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Other Specialists */}
+                    <div>
+                        <h3 className="text-xl font-bold text-slate-800 mb-4">Other Specialists at {doctor.location.split(',')[0]}</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                { name: "Dr. Sarah Chen", spec: "Neurologist • 12 Years Exp", fee: "₹1000" },
+                                { name: "Dr. James Wilson", spec: "Pediatrician • 8 Years Exp", fee: "₹800" },
+                                { name: "Dr. Elena Rodriguez", spec: "Dermatologist • 10 Years Exp", fee: "₹900" }
+                            ].map((doc, i) => (
+                                <div key={i} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                                    <div className="h-24 bg-gradient-to-r from-blue-100 to-indigo-100"></div>
+                                    <div className="p-4 relative">
+                                        <div className="w-16 h-16 bg-white border-4 border-white rounded-full overflow-hidden absolute -top-8 left-4 shadow-sm">
+                                            <img src={`https://i.pravatar.cc/150?img=${i + 20}`} alt="Doc" className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="mt-8">
+                                            <h4 className="font-bold text-sm text-slate-900">{doc.name}</h4>
+                                            <p className="text-[10px] text-slate-500 font-medium mb-3">{doc.spec}</p>
+                                            <div className="flex justify-between items-center text-xs">
+                                                <span className="font-bold text-slate-800">{doc.fee}</span>
+                                                <span onClick={() => { }} className="text-blue-600 font-bold cursor-pointer hover:underline">View Profile</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                        </main>
-                        {/* Footer */}
-                        <footer className="mt-auto py-12 px-10 border-t border-slate-200 dark:border-slate-800 text-center">
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="flex items-center gap-2 text-primary/70">
-                                    <span className="material-symbols-outlined font-bold">medical_services</span>
-                                    <span className="font-bold">ArogyaSetu</span>
-                                </div>
-                                <p className="text-slate-500 text-sm max-w-lg italic">Disclaimer: This knowledge base is for educational purposes only. In case of a real medical emergency, always call your local emergency services (911) immediately.</p>
-                                <div className="flex gap-6 mt-4">
-                                    <a className="text-slate-400 hover:text-primary transition-colors" href="#">Privacy Policy</a>
-                                    <a className="text-slate-400 hover:text-primary transition-colors" href="#">Terms of Service</a>
-                                    <a className="text-slate-400 hover:text-primary transition-colors" href="#">Contact Support</a>
-                                </div>
-                                <p className="text-slate-400 text-xs mt-6">© 2024 ArogyaSetu AI. All rights reserved.</p>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Book Appointment Area */}
+                <div className="w-full lg:w-[400px] shrink-0">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sticky top-8">
+                        <h3 className="font-bold text-lg text-slate-900 mb-1">Book Appointment</h3>
+                        <p className="text-xs text-slate-500 font-medium mb-6">Choose your preferred slot</p>
+
+                        {/* Mini Calendar / Days */}
+                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
+                            <button className="text-slate-400 hover:text-slate-800 transition-colors p-1"><span className="material-symbols-outlined text-lg">chevron_left</span></button>
+
+                            <div className="flex flex-1 justify-center gap-2 px-2">
+                                {[
+                                    { day: 'Mon', num: 12, slots: 12 },
+                                    { day: 'Tue', num: 13, slots: 8 },
+                                    { day: 'Wed', num: 14, slots: 15 }
+                                ].map((d) => (
+                                    <div
+                                        key={d.num}
+                                        onClick={() => setSelectedDay(d.num)}
+                                        className={`flex flex-col items-center justify-center py-2 px-3 sm:px-4 rounded-xl cursor-pointer transition-colors border ${selectedDay === d.num ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 border-transparent' : 'bg-transparent text-slate-600 hover:bg-slate-50 border-transparent'}`}
+                                    >
+                                        <span className={`text-[10px] font-bold uppercase tracking-wider mb-1 ${selectedDay === d.num ? 'opacity-90' : ''}`}>{d.day}</span>
+                                        <span className="text-lg font-black leading-none mb-1">{d.num}</span>
+                                        <span className={`text-[8px] font-bold uppercase ${selectedDay === d.num ? 'opacity-90' : 'text-emerald-500'}`}>{d.slots} Slots</span>
+                                    </div>
+                                ))}
                             </div>
-                        </footer>
+
+                            <button className="text-slate-400 hover:text-slate-800 transition-colors p-1"><span className="material-symbols-outlined text-lg">chevron_right</span></button>
+                        </div>
+
+                        {/* Slots */}
+                        <div className="space-y-6">
+                            <div>
+                                <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">
+                                    <span className="material-symbols-outlined text-[14px]">light_mode</span> Morning
+                                </h4>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {['09:00 AM', '09:30 AM', '10:00 AM', '11:00 AM'].map(slot => (
+                                        <div
+                                            key={slot}
+                                            onClick={() => setSelectedSlot(slot)}
+                                            className={`rounded-lg py-2 text-center text-xs font-bold cursor-pointer transition-colors ${selectedSlot === slot ? 'border-2 border-blue-600 bg-blue-50 text-blue-600' : 'border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600'}`}
+                                        >
+                                            {slot}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">
+                                    <span className="material-symbols-outlined text-[14px]">partly_cloudy_day</span> Afternoon
+                                </h4>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {['02:00 PM', '02:30 PM', '03:00 PM', '04:30 PM'].map(slot => (
+                                        <div
+                                            key={slot}
+                                            onClick={() => setSelectedSlot(slot)}
+                                            className={`rounded-lg py-2 text-center text-xs font-bold cursor-pointer transition-colors ${selectedSlot === slot ? 'border-2 border-blue-600 bg-blue-50 text-blue-600' : 'border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600'}`}
+                                        >
+                                            {slot}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Consultation Fee & Actions */}
+                        <div className="mt-8 pt-6 border-t border-slate-100">
+                            <div className="flex justify-between items-center mb-6">
+                                <span className="text-sm font-semibold text-slate-600">Consultation Fee</span>
+                                <span className="text-xl font-black text-slate-900">{doctor.fee}</span>
+                            </div>
+
+                            <button
+                                onClick={handleConfirmBooking}
+                                className="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 mb-3"
+                            >
+                                Confirm Booking <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </button>
+                            <p className="text-[10px] text-center text-slate-400 font-semibold mb-6 pb-6 border-b border-slate-100">No booking fee • Free cancellation up to 2 hours before</p>
+
+                            <div className="bg-blue-50/50 rounded-xl p-4 flex gap-3 border border-blue-100/50">
+                                <span className="material-symbols-outlined text-[18px] text-blue-600">info</span>
+                                <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
+                                    <strong className="text-slate-800">Need a faster response?</strong> Use our AI Specialist to get a preliminary assessment in under 60 seconds. Best for non-emergencies.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
+    );
+};
+
+const Footer = () => {
+    const navigate = useNavigate();
+    return (
+        <footer className="mt-20 pt-16 pb-8 border-t border-slate-200 bg-slate-50">
+            <div className="max-w-[1200px] mx-auto px-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                    <div>
+                        <div className="flex items-center gap-2 text-blue-600 font-bold tracking-tight text-xl mb-6">
+                            <span className="material-symbols-outlined">health_and_safety</span>
+                            ArogyaSetu
+                        </div>
+                        <p className="text-sm text-slate-500 leading-relaxed font-medium">Redefining healthcare with AI intelligence and professional excellence. Find the best medical help at your fingertips.</p>
+                    </div>
+                    <div>
+                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">For Patients</h5>
+                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
+                            <span className="hover:text-blue-600 cursor-pointer transition-colors" onClick={() => window.scrollTo(0, 0)}>Search Doctors</span>
+                            <span className="hover:text-blue-600 cursor-pointer transition-colors" onClick={() => navigate('/ai-symptom-checker-interface')}>Consult AI Assistant</span>
+                            <Link to="/my-health" className="hover:text-blue-600 transition-colors">Book Appointments</Link>
+                            <Link to="/patient-profile-records" className="hover:text-blue-600 transition-colors">Digital Health Records</Link>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">For Doctors</h5>
+                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
+                            <span className="hover:text-blue-600 transition-colors cursor-pointer">Join as a Professional</span>
+                            <Link to="/ai-x-ray-analysis-tool" className="hover:text-blue-600 transition-colors">AI Diagnostic Tools</Link>
+                            <span className="hover:text-blue-600 transition-colors cursor-pointer">Manage Practice</span>
+                            <Link to="/health-reports-analytics" className="hover:text-blue-600 transition-colors">Patient Analytics</Link>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 className="font-bold text-sm text-slate-800 mb-6 uppercase tracking-wider">Contact</h5>
+                        <div className="flex flex-col gap-4 text-xs font-semibold text-slate-500">
+                            <a href="mailto:support@arogyasetu.ai" className="flex items-center gap-2 hover:text-blue-600 transition-colors"><span className="material-symbols-outlined text-[16px]">mail</span> support@arogyasetu.ai</a>
+                            <a href="tel:1800-AROGYA" className="flex items-center gap-2 hover:text-blue-600 transition-colors"><span className="material-symbols-outlined text-[16px]">call</span> 1800-AROGYA</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold text-slate-400">
+                    <p>© 2024 Arogya Setu Healthcare Technologies. All rights reserved.</p>
+                    <div className="flex gap-6">
+                        <span className="hover:text-blue-600 transition-colors cursor-pointer">Privacy Policy</span>
+                        <span className="hover:text-blue-600 transition-colors cursor-pointer">Terms of Service</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
     );
 };
 
