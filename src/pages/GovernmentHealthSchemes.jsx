@@ -235,15 +235,16 @@ Example: ["pm-jay", "jsy"]
                 return;
             }
 
-            const promptText = `
-You are the "Scheme AI Agent" acting as a helpful guide for Government Health Schemes in India, specifically for ${selectedScheme ? selectedScheme.fullTitle || selectedScheme.title : "Indian Government Schemes"}. 
-You must ONLY answer questions related to health, wellness, the ArogyaSetu project, or government health schemes. If the query is unrelated, politely refuse to answer. Keep your response extremely short, professional, and directly address the user's query about eligibility, documents, or procedure. Use markdown for bolding important parts. The user said: "${userMsg}"`;
+            const systemPrompt = `You are the "Scheme AI Agent" acting as a helpful guide for Government Health Schemes in India, specifically for ${selectedScheme ? selectedScheme.fullTitle || selectedScheme.title : "Indian Government Schemes"}. 
+CRITICAL RULE: You must ONLY answer questions related to health, wellness, the ArogyaSetu project, or government health schemes. If the query is unrelated (coding, general knowledge), firmly refuse to answer.
+Keep your response extremely short, professional, and directly address the user's query about eligibility, documents, or procedure. Use markdown for bolding important parts.`;
 
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }]
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [{ parts: [{ text: userMsg }] }]
                 })
             });
 
@@ -279,11 +280,15 @@ You must ONLY answer questions related to health, wellness, the ArogyaSetu proje
                         }, 1000);
                         return;
                     }
-                    const promptText = `You are the Scheme AI Agent for ArogyaSetu. You MUST answer in short and concise sentences. ONLY answer questions related to health, the ArogyaSetu project, or Indian Government Health Schemes. If the user asks anything else, firmly refuse to answer. The user asks: "${query}".`;
+                    const systemPrompt = `You are the Scheme AI Agent for ArogyaSetu. You MUST answer in short and concise sentences.
+CRITICAL RULE: ONLY answer questions related to health, the ArogyaSetu project, or Indian Government Health Schemes. If the user asks anything else, firmly refuse to answer.`;
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                        body: JSON.stringify({
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                            contents: [{ parts: [{ text: query }] }]
+                        })
                     });
                     const data = await response.json();
                     setAgentMessages(prev => [...prev, { role: 'ai', content: data.candidates[0].content.parts[0].text, type: 'text' }]);

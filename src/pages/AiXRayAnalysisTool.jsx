@@ -35,7 +35,7 @@ const AiXRayAnalysisTool = () => {
                 }
 
                 const base64Image = await fileToBase64(file);
-                const promptText = `You are an expert radiologist AI system.
+                const systemInstructionText = `You are an expert radiologist AI system.
 
 CRITICAL RULE 1: Identify if the provided image is a human chest X-ray. 
 If it is NOT a human chest X-ray (e.g., it is a car, an animal, a normal photograph, a document, a landscape, or an x-ray of a completely different body part like a hand, skull, or leg), you MUST set "isValid" to false.
@@ -48,9 +48,10 @@ CRITICAL RULE 3: If you detect pneumonia, estimate the bounding box of the prima
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemInstructionText }] },
                         contents: [{
                             parts: [
-                                { text: promptText },
+                                { text: "Analyze this image." },
                                 { inlineData: { mimeType: file.type, data: base64Image } }
                             ]
                         }],
