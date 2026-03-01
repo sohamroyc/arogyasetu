@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import Footer from '../components/Footer';
+import { supabase } from '../supabaseClient';
 
 const MedicationManagerCalendar = () => {
     const [activeTab, setActiveTab] = useState('Month');
     const [baseDate, setBaseDate] = useState(new Date(2023, 9, 3)); // Oct 3, 2023 for visual mock context
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newMed, setNewMed] = useState({ name: '', dosage: '', indication: '', schedule: '' });
+    const [prescriptions, setPrescriptions] = useState([]);
 
-    const [prescriptions, setPrescriptions] = useState([
-        { id: 1, name: 'Lisinopril', dosage: '10mg', indication: 'Hypertension Management', schedule: '8:00 AM Daily', remaining: '12 / 30', type: 'pills', status: 'Refill Now', icon: 'pill' },
-        { id: 2, name: 'Metformin', dosage: '500mg', indication: 'Type 2 Diabetes Control', schedule: 'With Breakfast', remaining: '5 / 60', type: 'pills', status: 'Refill Urgent', icon: 'pill_off' },
-        { id: 3, name: 'Vitamin D3', dosage: '2000IU', indication: 'Immune Support', schedule: '1x Weekly (Sun)', remaining: '24 / 24', type: 'caps', status: 'Refill Not Ready', icon: 'medication_liquid' }
-    ]);
+    useEffect(() => {
+        fetchMedications();
+    }, []);
 
-    const handleAddMedication = (e) => {
+    const fetchMedications = async () => {
+        try {
+            const { data, error } = await supabase.from('medications').select('*').order('created_at', { ascending: false });
+            if (error) throw error;
+            if (data) setPrescriptions(data);
+        } catch (error) {
+            console.error("Error fetching medications:", error);
+        }
+    };
+
+    const handleAddMedication = async (e) => {
         e.preventDefault();
         if (!newMed.name) return;
-        const med = {
-            id: Date.now(),
+
+        const medPayload = {
             name: newMed.name,
             dosage: newMed.dosage || 'N/A',
             indication: newMed.indication || 'General',
@@ -29,18 +39,43 @@ const MedicationManagerCalendar = () => {
             status: 'Refill Not Ready',
             icon: 'pill'
         };
-        setPrescriptions([med, ...prescriptions]);
-        setIsModalOpen(false);
-        setNewMed({ name: '', dosage: '', indication: '', schedule: '' });
+
+        try {
+            const { error } = await supabase.from('medications').insert([medPayload]);
+            if (error) throw error;
+
+            setIsModalOpen(false);
+            setNewMed({ name: '', dosage: '', indication: '', schedule: '' });
+            fetchMedications(); // Re-fetch from db to get the true ID and timestamp
+        } catch (error) {
+            console.error("Failed to add medication:", error);
+            alert("Could not process your new medication.");
+        }
     };
 
-    const handleRefill = (id) => {
-        setPrescriptions(prescriptions.map(p => {
-            if (p.id === id && p.status !== 'Refill Not Ready') {
-                return { ...p, remaining: p.type === 'pills' ? '30 / 30' : '24 / 24', status: 'Refill Not Ready' };
+    const handleRefill = async (id, currentType) => {
+        try {
+            const newRemaining = currentType === 'pills' ? '30 / 30' : '24 / 24';
+
+            // Optimistically update UI
+            setPrescriptions(prescriptions.map(p =>
+                p.id === id ? { ...p, remaining: newRemaining, status: 'Refill Not Ready' } : p
+            ));
+
+            const { error } = await supabase
+                .from('medications')
+                .update({ remaining: newRemaining, status: 'Refill Not Ready' })
+                .eq('id', id);
+
+            if (error) {
+                // If it fails on the server, revert by refetching
+                throw error;
             }
-            return p;
-        }));
+        } catch (error) {
+            console.error("Failed to refill medication:", error);
+            fetchMedications();
+            alert("Failed to update refill status.");
+        }
     };
 
     const getMonthName = (date) => {
@@ -272,7 +307,7 @@ const MedicationManagerCalendar = () => {
                                         </div>
 
                                         <button
-                                            onClick={() => handleRefill(med.id)}
+                                            onClick={() => handleRefill(med.id, med.type)}
                                             disabled={med.status === 'Refill Not Ready'}
                                             className={`text-[11px] font-bold px-3 py-2 rounded-lg transition-all active:scale-95 ${med.status === 'Refill Urgent'
                                                 ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
@@ -288,7 +323,7 @@ const MedicationManagerCalendar = () => {
                             ))}
                         </div>
 
-                        <div className="mt-auto pt-6">
+                        <div className="mt-auto pt-6 flex flex-col gap-3">
                             <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
                                 <div className="flex items-center gap-3 text-blue-800">
                                     <div className="bg-blue-600 text-white p-1.5 rounded-lg shrink-0">
@@ -296,6 +331,12 @@ const MedicationManagerCalendar = () => {
                                     </div>
                                     <p className="text-xs font-bold leading-tight">ArogyaSetu AI is monitoring your symptom logs for any drug side effects.</p>
                                 </div>
+                            </div>
+                            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-3 text-emerald-800">
+                                <div className="bg-emerald-600 text-white p-1.5 rounded-lg shrink-0">
+                                    <span className="material-symbols-outlined text-[18px]">cloud_sync</span>
+                                </div>
+                                <p className="text-xs font-bold leading-tight">Your prescriptions are securely backed up in the cloud.</p>
                             </div>
                         </div>
                     </div>
