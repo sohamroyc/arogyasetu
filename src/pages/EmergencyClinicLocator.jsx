@@ -119,22 +119,43 @@ const EmergencyClinicLocator = () => {
             setApiMessage("Fetching live clinics nearby...");
 
             // Query OpenStreetMap for hospitals and clinics via Overpass API
-            const query = `
-                [out:json];
-                (
-                  node["amenity"="hospital"](around:${radius},${lat},${lng});
-                  node["amenity"="clinic"](around:${radius},${lat},${lng});
-                  node["amenity"="doctors"](around:${radius},${lat},${lng});
-                  node["amenity"="pharmacy"](around:${radius},${lat},${lng});
-                );
-                out center;
-            `;
+            const query = `[out:json][timeout:25];(node["amenity"="hospital"](around:${radius},${lat},${lng});way["amenity"="hospital"](around:${radius},${lat},${lng});node["amenity"="clinic"](around:${radius},${lat},${lng});way["amenity"="clinic"](around:${radius},${lat},${lng});node["amenity"="pharmacy"](around:${radius},${lat},${lng});way["amenity"="pharmacy"](around:${radius},${lat},${lng}););out center;`;
 
-            const res = await fetch(`https://overpass-api.de/api/interpreter`, {
-                method: "POST",
-                body: "data=" + encodeURIComponent(query)
-            });
+            // Try multiple mirrors if one fails
+            const mirrors = [
+                'https://overpass-api.de/api/interpreter',
+                'https://overpass.kumi.systems/api/interpreter',
+                'https://lz4.overpass-api.de/api/interpreter',
+                'https://overpass.openstreetmap.fr/api/interpreter'
+            ];
 
+            let res;
+            let lastError;
+
+            for (const mirror of mirrors) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+                    const url = `${mirror}?data=${encodeURIComponent(query)}`;
+                    res = await fetch(url, {
+                        method: "GET",
+                        signal: controller.signal,
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    });
+                    clearTimeout(timeoutId);
+                    if (res.ok) break;
+                } catch (err) {
+                    lastError = err;
+                    console.warn(`Mirror ${mirror} failed: ${err.message}`);
+                }
+            }
+
+            if (!res || !res.ok) {
+                throw lastError || new Error(`All Overpass mirrors failed`);
+            }
             const data = await res.json();
 
             if (data.elements && data.elements.length > 0) {
@@ -144,12 +165,15 @@ const EmergencyClinicLocator = () => {
                     if (props.amenity === "pharmacy") type = "pharmacy";
                     else if (props.amenity === "doctors" || props.amenity === "clinic") type = "urgent";
 
+                    const elLat = element.center ? element.center.lat : element.lat;
+                    const elLon = element.center ? element.center.lon : element.lon;
+
                     // Rough distance calculation in miles
                     const R = 3958.8; // Radius of the Earth in miles
                     const rlat1 = lat * (Math.PI / 180);
-                    const rlat2 = element.lat * (Math.PI / 180);
+                    const rlat2 = elLat * (Math.PI / 180);
                     const difflat = rlat2 - rlat1;
-                    const difflon = (element.lon - lng) * (Math.PI / 180);
+                    const difflon = (elLon - lng) * (Math.PI / 180);
                     const a = Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2);
                     const distance = 2 * R * Math.asin(Math.sqrt(a));
 
@@ -161,8 +185,8 @@ const EmergencyClinicLocator = () => {
                         phone: props.phone || props['contact:phone'] || "Unlisted",
                         distance: distance.toFixed(1) + " miles",
                         info: props['healthcare:speciality'] || props.dispensing || props.amenity || "General Care",
-                        lat: element.lat,
-                        lng: element.lon,
+                        lat: elLat,
+                        lng: elLon,
                     };
                 });
 

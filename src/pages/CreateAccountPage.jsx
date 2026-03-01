@@ -43,10 +43,10 @@ const CreateAccountPage = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleFinalSubmit = (e) => {
+    const handleFinalSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        const result = signup({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions });
+        const result = await signup({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions });
         if (result.success) {
             navigate('/main-wellness-dashboard');
         } else {

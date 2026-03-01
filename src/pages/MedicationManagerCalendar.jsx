@@ -4,9 +4,11 @@ import TopHeader from '../components/TopHeader';
 import Footer from '../components/Footer';
 import { supabase } from '../supabaseClient';
 
+
+
 const MedicationManagerCalendar = () => {
     const [activeTab, setActiveTab] = useState('Month');
-    const [baseDate, setBaseDate] = useState(new Date(2023, 9, 3)); // Oct 3, 2023 for visual mock context
+    const [baseDate, setBaseDate] = useState(new Date()); // Changed to CURRENT date
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newMed, setNewMed] = useState({ name: '', dosage: '', indication: '', schedule: '' });
     const [prescriptions, setPrescriptions] = useState([]);
@@ -118,33 +120,61 @@ const MedicationManagerCalendar = () => {
             );
         }
 
+        // --- REAL CALENDAR GENERATION LOGIC ---
+        const year = baseDate.getFullYear();
+        const month = baseDate.getMonth();
+
+        // 1. Get the first day of the month (0 = Sun, 1 = Mon...)
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        // 2. Get total days in current month
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // 3. Get total days in previous month (to show in the faded gray boxes)
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+        // Let's build exactly 6 rows of 7 days (42 cells total) so grid always stays perfectly square
+        const calendarGrid = [];
+
+        // Add previous month's trailing days
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const dateNum = daysInPrevMonth - firstDayOfMonth + i + 1;
+            calendarGrid.push({ dateNum, isCurrentMonth: false });
+        }
+
+        // Add current month's days
+        for (let i = 1; i <= daysInMonth; i++) {
+            calendarGrid.push({ dateNum: i, isCurrentMonth: true });
+        }
+
+        // Fill the rest with next month's starting days to hit 42 cells
+        const remainingCells = 42 - calendarGrid.length;
+        for (let i = 1; i <= remainingCells; i++) {
+            calendarGrid.push({ dateNum: i, isCurrentMonth: false });
+        }
+
+        const today = new Date();
+
         return (
             <div className="grid grid-cols-7 gap-px bg-slate-200 border-t border-slate-200 rounded-b-2xl overflow-hidden">
-                {/* Simulated Grid for visual parity. Not a perfect JS Date generator but a great structural mockup */}
-                {Array.from({ length: 35 }).map((_, i) => {
-                    let dateNum = 0;
-                    let isCurrentMonth = true;
-                    if (i < 7) {
-                        dateNum = 24 + i;
-                        isCurrentMonth = false;
-                    } else if (i < 38) {
-                        dateNum = i - 6;
-                    }
-                    if (dateNum > 31 && isCurrentMonth) {
-                        dateNum = dateNum - 31;
-                        isCurrentMonth = false;
-                    }
+                {calendarGrid.map((cell, index) => {
+                    const isToday = cell.isCurrentMonth &&
+                        cell.dateNum === today.getDate() &&
+                        month === today.getMonth() &&
+                        year === today.getFullYear() &&
+                        activeTab === 'Month';
 
-                    const isToday = dateNum === 3 && isCurrentMonth && activeTab === 'Month';
+                    // Determine if we should show mock meds on this cell
+                    const isSecondOfCurrentMonth = cell.isCurrentMonth && cell.dateNum === 2;
 
                     return (
-                        <div key={i} className={`bg-white min-h-[120px] p-2 flex flex-col ${!isCurrentMonth ? 'opacity-40 bg-slate-50' : 'hover:bg-slate-50 transition-colors cursor-pointer'} ${isToday ? 'ring-2 ring-blue-600 ring-inset relative z-10 bg-blue-50/10' : ''}`}>
+                        <div key={index} className={`bg-white min-h-[120px] p-2 flex flex-col ${!cell.isCurrentMonth ? 'opacity-40 bg-slate-50' : 'hover:bg-slate-50 transition-colors cursor-pointer'} ${isToday ? 'ring-2 ring-blue-600 ring-inset relative z-10 bg-blue-50/10' : ''}`}>
                             <span className={`text-sm ${isToday ? 'font-bold text-blue-600' : 'font-bold text-slate-600'}`}>
-                                {dateNum} {isToday ? 'Today' : ''}
+                                {cell.dateNum} {isToday ? 'Today' : ''}
                             </span>
 
                             {/* Render mockup meds specifically on certain dates for visual fidelity */}
-                            {isCurrentMonth && dateNum === 2 && (
+                            {isSecondOfCurrentMonth && (
                                 <div className="mt-2 flex flex-col gap-1.5">
                                     <div className="bg-emerald-50 text-emerald-600 text-[10px] px-2 py-1 rounded border border-emerald-100 truncate font-black">Morning Meds (3)</div>
                                     <div className="bg-amber-50 text-amber-600 text-[10px] px-2 py-1 rounded border border-amber-100 truncate font-black">Evening Meds (1)</div>

@@ -122,7 +122,7 @@ const LandingPage = () => {
                   <span className="text-sm font-semibold text-slate-700 hidden sm:inline">{user.name}</span>
                 </div>
                 <button
-                  onClick={() => { logout(); }}
+                  onClick={async () => { await logout(); }}
                   className="text-sm font-semibold text-slate-500 hover:text-red-600 transition-colors px-3 py-2"
                 >
                   Sign out

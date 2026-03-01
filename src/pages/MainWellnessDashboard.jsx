@@ -85,7 +85,7 @@ const MainWellnessDashboard = () => {
                                     <Link to="/patient-profile-records" className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
                                         <span className="material-symbols-outlined text-xl">settings</span>
                                     </Link>
-                                    <Link title="Logout" to="/" onClick={(e) => { e.preventDefault(); logout(); navigate('/'); }} className="text-slate-400 hover:text-red-500">
+                                    <Link title="Logout" to="/" onClick={async (e) => { e.preventDefault(); await logout(); navigate('/'); }} className="text-slate-400 hover:text-red-500">
                                         <span className="material-symbols-outlined text-xl">logout</span>
                                     </Link>
                                 </div>

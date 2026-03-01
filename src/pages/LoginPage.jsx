@@ -5,15 +5,16 @@ import Footer from '../components/Footer';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        const result = login(email);
+        const result = await login(email);
         if (result.success) {
             navigate('/main-wellness-dashboard');
         } else {
@@ -111,6 +112,8 @@ const LoginPage = () => {
                                     type={showPassword ? 'text' : 'password'}
                                     className="w-full bg-white border border-slate-200 rounded-lg pr-10 pl-4 py-3 text-sm focus:ring-primary focus:border-primary transition-colors tracking-widest"
                                     placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">

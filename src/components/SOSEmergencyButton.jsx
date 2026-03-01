@@ -37,33 +37,52 @@ const SOSEmergencyButton = () => {
 
         const fetchFromOverpass = async (lat, lng) => {
             const radius = 10000;
+            const query = `[out:json][timeout:25];(node["amenity"="hospital"](around:${radius},${lat},${lng});node["amenity"="clinic"](around:${radius},${lat},${lng});node["amenity"="pharmacy"](around:${radius},${lat},${lng}););out center;`;
+
+            const mirrors = [
+                'https://overpass-api.de/api/interpreter',
+                'https://overpass.kumi.systems/api/interpreter',
+                'https://lz4.overpass-api.de/api/interpreter',
+                'https://overpass.openstreetmap.fr/api/interpreter'
+            ];
+
+            let res;
+            let lastError;
+
+            for (const mirror of mirrors) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+                    const url = `${mirror}?data=${encodeURIComponent(query)}`;
+                    res = await fetch(url, {
+                        method: "GET",
+                        signal: controller.signal,
+                        headers: { "Accept": "application/json" }
+                    });
+                    clearTimeout(timeoutId);
+                    if (res.ok) break;
+                } catch (err) {
+                    lastError = err;
+                    console.warn(`Mirror ${mirror} failed: ${err.message}`);
+                }
+            }
+
             try {
-                const query = `
-                    [out:json];
-                    (
-                      node["amenity"="hospital"](around:${radius},${lat},${lng});
-                      node["amenity"="clinic"](around:${radius},${lat},${lng});
-                      node["amenity"="doctors"](around:${radius},${lat},${lng});
-                      node["amenity"="pharmacy"](around:${radius},${lat},${lng});
-                    );
-                    out center;
-                `;
-
-                const res = await fetch(`https://overpass-api.de/api/interpreter`, {
-                    method: "POST",
-                    body: "data=" + encodeURIComponent(query)
-                });
-
+                if (!res || !res.ok) throw lastError || new Error(`All Overpass mirrors failed`);
                 const data = await res.json();
 
                 if (data.elements && data.elements.length > 0) {
                     const mappedClinics = data.elements.map((element) => {
                         const props = element.tags || {};
+                        const elLat = element.center ? element.center.lat : element.lat;
+                        const elLon = element.center ? element.center.lon : element.lon;
+
                         const R = 3958.8;
                         const rlat1 = lat * (Math.PI / 180);
-                        const rlat2 = element.lat * (Math.PI / 180);
+                        const rlat2 = elLat * (Math.PI / 180);
                         const difflat = rlat2 - rlat1;
-                        const difflon = (element.lon - lng) * (Math.PI / 180);
+                        const difflon = (elLon - lng) * (Math.PI / 180);
                         const a = Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2);
                         const distance = 2 * R * Math.asin(Math.sqrt(a));
 
@@ -85,7 +104,6 @@ const SOSEmergencyButton = () => {
                 }
             } catch (err) {
                 console.error("Overpass API Error", err);
-                // Fallback UI
                 setHospitals([
                     { name: "City General Hospital", distance: "0.8 miles", status: "OPEN" },
                     { name: "St. Mary's Urgent Care", distance: "2.4 miles", status: "BUSY" },

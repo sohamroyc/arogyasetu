@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { registerUser, findUserByEmail, updateUser } from '../services/userDb';
+import { registerUser, findUserByEmail } from '../services/userDb';
 
 const AuthContext = createContext(null);
 
@@ -17,11 +17,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, [user]);
 
-    /**
-     * Log in by email. Looks up the user in the local DB.
-     * Returns { success: true } or { success: false, error: '...' }.
-     */
-    const login = (email) => {
+    const login = async (email, password) => {
         const found = findUserByEmail(email);
         if (!found) {
             return { success: false, error: 'No account found with that email. Please sign up first.' };
@@ -36,11 +32,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
     };
 
-    /**
-     * Register a new user and log them in.
-     * Returns { success: true } or { success: false, error: '...' }.
-     */
-    const signup = ({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions }) => {
+    const signup = async ({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions }) => {
         const fields = { name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions };
         const created = registerUser(fields);
         if (!created) {
@@ -56,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true };
     };
 
-    const logout = () => {
+    const logout = async () => {
         setUser(null);
     };
 
@@ -67,4 +59,5 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
