@@ -13,7 +13,8 @@ function save(users) {
 }
 
 /** Register a new user. Returns the created user object or null if email already exists. */
-export function registerUser({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions }) {
+export function registerUser(fields) {
+    const { name, email, phone, password, dob, gender, height, weight, bloodType, allergies, conditions } = fields;
     const users = getAll();
     if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
         return null; // already registered
@@ -22,6 +23,7 @@ export function registerUser({ name, email, phone, dob, gender, height, weight, 
         name,
         email: email.toLowerCase(),
         phone,
+        password, // For mock DB purposes; real backend should hash this
         dob: dob || '',
         gender: gender || '',
         height: height || '',
@@ -34,6 +36,15 @@ export function registerUser({ name, email, phone, dob, gender, height, weight, 
     users.push(user);
     save(users);
     return user;
+}
+
+/** Authenticate a user by email and password. Returns the user object or null. */
+export function authenticateUser(email, password) {
+    const user = getAll().find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (user && user.password === password) {
+        return user;
+    }
+    return null;
 }
 
 /** Look up a registered user by email. Returns the user object or null. */

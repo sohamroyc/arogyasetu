@@ -47,7 +47,7 @@ const TopHeader = () => {
                     <span className="material-symbols-outlined font-bold text-xl">health_and_safety</span>
                 </div>
                 <div className="hidden sm:block">
-                    <h1 className="font-bold text-lg text-slate-900 dark:text-slate-100 leading-tight">ArogyaSetu</h1>
+                    <h1 className="font-bold text-lg text-slate-900 dark:text-slate-100 leading-tight">Swasthya Mitra</h1>
                     <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-tight">AI Wellness Hub</p>
                 </div>
             </Link>

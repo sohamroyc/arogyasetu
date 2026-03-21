@@ -379,7 +379,7 @@ const MedicationManagerCalendar = () => {
                                     <div className="bg-blue-600 text-white p-1.5 rounded-lg shrink-0">
                                         <span className="material-symbols-outlined text-[18px]">psychiatry</span>
                                     </div>
-                                    <p className="text-xs font-bold leading-tight">ArogyaSetu AI is monitoring your symptom logs for any drug side effects.</p>
+                                    <p className="text-xs font-bold leading-tight">Swasthya Mitra AI is monitoring your symptom logs for any drug side effects.</p>
                                 </div>
                             </div>
                             <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-3 text-emerald-800">

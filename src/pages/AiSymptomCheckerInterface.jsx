@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import TopHeader from '../components/TopHeader';
 import Footer from '../components/Footer';
+import { generateLocalFallbackResponse, generateSystemPromptFromKB } from '../utils/aiFallback';
 
 const AiSymptomCheckerInterface = () => {
     // Current application state ('specialist_selection' or 'active_chat')
@@ -66,7 +67,9 @@ const AiSymptomCheckerInterface = () => {
                 throw new Error("API Key Missing");
             }
 
-            const systemPrompt = `You are an AI acting as a highly professional ${activeSpecialist.name} for the ArogyaSetu project. 
+            const basePrompt = generateSystemPromptFromKB();
+            const systemPrompt = `You are an AI acting as a highly professional ${activeSpecialist.name} for the Swasthya Mitra project.
+${basePrompt}
 CRITICAL RULE 1: You are strictly a medical/health assistant. You MUST ONLY answer questions that are directly related to the health domain.
 CRITICAL RULE 2: You MUST ONLY answer questions that are directly related to your specific medical specialty (${activeSpecialist.name}). If the user asks a health question that is outside of your specific medical domain (e.g., asking a Cardiologist about broken bones, or an Ophthalmologist about skin rashes), politely inform them to return to the dashboard to select the correct specialist, and you MUST refuse to answer the question.
 CRITICAL RULE 3: If the user asks ANY question outside of the health domain entirely (e.g. general knowledge, coding, politics), firmly refuse to answer. Say: "I am a medical AI and can only answer health-related questions."
@@ -96,9 +99,11 @@ Do not prescribe serious medication. Answer in extremely short and concise sente
             }]);
 
         } catch (error) {
+            const fallbackText = generateLocalFallbackResponse(userMsgContent, activeSpecialist.name);
+
             setMessages(prev => [...prev, {
                 role: 'ai',
-                content: "I am currently unable to connect to the medical AI network. Please try again later.",
+                content: fallbackText,
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }]);
         } finally {
@@ -170,7 +175,7 @@ Do not prescribe serious medication. Answer in extremely short and concise sente
                         <div className="flex flex-col">
                             <h4 className="text-slate-900 text-sm font-bold mb-1">Medical Disclaimer</h4>
                             <p className="text-xs text-slate-600 leading-relaxed">
-                                Arogya Setu AI Specialist agents provide insights based on medical data models but are NOT a substitute for professional medical advice from a qualified healthcare provider. Do not disregard professional advice because of something you have read here. In case of emergency, immediately contact your local emergency response services.
+                                Swasthya Mitra AI Specialist agents provide insights based on medical data models but are NOT a substitute for professional medical advice from a qualified healthcare provider. Do not disregard professional advice because of something you have read here. In case of emergency, immediately contact your local emergency response services.
                             </p>
                         </div>
                     </div>

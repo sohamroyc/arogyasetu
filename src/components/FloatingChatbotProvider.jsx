@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { generateLocalFallbackResponse, generateSystemPromptFromKB } from '../utils/aiFallback';
 
 const FloatingChatbotProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -118,8 +119,9 @@ const FloatingChatbotProvider = ({ children }) => {
             const langMap = { 'en-US': 'English', 'hi-IN': 'Hindi', 'bn-IN': 'Bengali' };
             const languageName = langMap[currentLanguage] || 'English';
 
-            const systemPrompt = `You are the ArogyaSetu AI Health Assistant. 
-CRITICAL DIRECTIVE: You MUST ONLY answer questions related to the ArogyaSetu project, health, wellness, first-aid, or medical symptoms. 
+            const basePrompt = generateSystemPromptFromKB();
+            const systemPrompt = `${basePrompt}
+CRITICAL DIRECTIVE: You MUST ONLY answer questions related to the Swasthya Mitra project, health, wellness, first-aid, or medical symptoms. 
 If the user asks ANY question unrelated to these topics (such as coding, math, general knowledge, translations of non-medical text, or any out-of-domain topic), you MUST firmly refuse to answer. Do not apologize, just state: "I am a medical assistant and can only answer health-related questions."
 Do not prescribe complex medications. Respond natively in ${languageName}, keeping answers extremely short and concise.`;
 
@@ -159,13 +161,16 @@ Do not prescribe complex medications. Respond natively in ${languageName}, keepi
 
         } catch (error) {
             console.error("Gemini AI integration error:", error);
-            // Provide a fallback mock response so the UI remains functional
+            
+            const fallbackText = generateLocalFallbackResponse(userMessage.content);
+
             const mockResponse = {
                 role: 'ai',
-                content: "Sorry, I couldn't reach the Gemini service. Here's a quick tip: stay hydrated and rest if you feel unwell.",
+                content: fallbackText,
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
             setMessages(prev => [...prev, mockResponse]);
+            speakText(fallbackText);
         } finally {
             setIsTyping(false);
         }
@@ -192,7 +197,7 @@ Do not prescribe complex medications. Respond natively in ${languageName}, keepi
                                 <span className="material-symbols-outlined text-[18px]">smart_toy</span>
                             </div>
                             <div className="flex flex-col">
-                                <span className="font-bold text-sm tracking-wide">ArogyaSetu AI</span>
+                                <span className="font-bold text-sm tracking-wide">Swasthya Mitra AI</span>
                                 <span className="text-[10px] text-primary-100 flex items-center gap-1">
                                     <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block"></span> Online
                                 </span>

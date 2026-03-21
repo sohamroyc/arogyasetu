@@ -11,7 +11,7 @@ const Footer = () => {
                     <span className="font-bold text-sm text-slate-900 dark:text-slate-100">Arogya<span className="text-primary">Setu</span></span>
                 </div>
                 <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                    &copy; {new Date().getFullYear()} ArogyaSetu AI Healthcare Framework. Built internally.
+                    &copy; {new Date().getFullYear()} Swasthya Mitra AI Healthcare Framework. Built internally.
                 </p>
                 <div className="flex gap-4 text-xs font-bold text-slate-500 dark:text-slate-400">
                     <a href="#" className="hover:text-primary transition-colors">Privacy</a>

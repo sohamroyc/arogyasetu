@@ -1,9 +1,9 @@
-# 🏥 ArogyaSetu AI Healthcare Platform
+# 🏥 Swasthya Mitra AI Healthcare Platform
 
 **An AI-Powered Healthcare Assistant & Comprehensive Wellness Hub**
 
 ## 📋 Overview
-ArogyaSetu is a modern, privacy-first healthcare web application that revolutionizes how users interact with medical technology. Built with cutting-edge web technologies and fully integrated with Google's Gemini AI, it provides instant symptom analysis, X-Ray imaging insights, dermatological condition scanning, and personalized wellness management—all encapsulated within a beautiful, dynamic interface.
+Swasthya Mitra is a modern, privacy-first healthcare web application that revolutionizes how users interact with medical technology. Built with cutting-edge web technologies and fully integrated with Google's Gemini AI, it provides instant symptom analysis, X-Ray imaging insights, dermatological condition scanning, and personalized wellness management—all encapsulated within a beautiful, dynamic interface.
 
 ---
 
@@ -63,8 +63,8 @@ ArogyaSetu is a modern, privacy-first healthcare web application that revolution
 ### Installation
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/arogyasetu-ai.git
-   cd arogyasetu-ai
+   git clone https://github.com/yourusername/swasthyamitra-ai.git
+   cd swasthyamitra-ai
    ```
 
 2. **Install dependencies**
@@ -128,7 +128,7 @@ Contributions are highly welcome! Whether it's adding a new healthcare module, t
 This project is open-source and intended for educational & portfolio demonstration purposes.
 
 > **⚠️ Strict Medical Disclaimer**
-> **Important**: ArogyaSetu is an AI-assisted informational tool, NOT a replacement for qualified medical professionals. Any outputs related to X-Rays, Derm-Scans, or Symptoms must be officially verified by a licensed doctor. In a true emergency, call your local authorities immediately.
+> **Important**: Swasthya Mitra is an AI-assisted informational tool, NOT a replacement for qualified medical professionals. Any outputs related to X-Rays, Derm-Scans, or Symptoms must be officially verified by a licensed doctor. In a true emergency, call your local authorities immediately.
 
 ---
 *Built with ❤️ to bridge the gap between AI and accessible healthcare.*

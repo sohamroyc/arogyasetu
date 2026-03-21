@@ -473,7 +473,7 @@ const DoctorDetailView = ({ doctor, onBack }) => {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg leading-tight mb-1">Wait! Try our AI Specialist First</h3>
-                                <p className="text-blue-100 text-sm font-medium">Instant diagnosis & medical advice powered by ArogyaSetu AI.</p>
+                                <p className="text-blue-100 text-sm font-medium">Instant diagnosis & medical advice powered by Swasthya Mitra AI.</p>
                             </div>
                         </div>
                         <button onClick={() => navigate('/ai-symptom-checker-interface')} className="bg-white text-blue-600 font-bold px-6 py-2.5 rounded-lg hover:shadow-lg transition-all active:scale-95 text-sm relative z-10">

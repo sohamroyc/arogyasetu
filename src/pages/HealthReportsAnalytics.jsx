@@ -11,7 +11,7 @@ const HealthReportsAnalytics = () => {
         glucose: { value: 94, change: 4 }
     });
     const handleShare = () => {
-        navigator.clipboard.writeText('Check out my health report on ArogyaSetu!');
+        navigator.clipboard.writeText('Check out my health report on Swasthya Mitra!');
         alert('Report link copied to clipboard!');
     };
     const handleGeneratePDF = () => {

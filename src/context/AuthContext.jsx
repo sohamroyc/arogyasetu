@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { registerUser, findUserByEmail } from '../services/userDb';
+import { registerUser, findUserByEmail, authenticateUser } from '../services/userDb';
 
 const AuthContext = createContext(null);
 
@@ -18,33 +18,66 @@ export const AuthProvider = ({ children }) => {
     }, [user]);
 
     const login = async (email, password) => {
+        // ==========================================
+        //  HOW TO CONNECT TO YOUR BACKEND API
+        // ==========================================
+        /*
+        try {
+            const res = await fetch('https://your-api.com/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Login failed');
+            
+            setUser(data.user); // or data.token if using JWT
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+        */
+
+        // MOCK BACKEND LOGIC (Delete when using real API)
         const found = findUserByEmail(email);
         if (!found) {
             return { success: false, error: 'No account found with that email. Please sign up first.' };
         }
-        setUser({
-            email: found.email, name: found.name, phone: found.phone,
-            dob: found.dob, gender: found.gender, height: found.height,
-            weight: found.weight, bloodType: found.bloodType,
-            allergies: found.allergies, conditions: found.conditions,
-            createdAt: found.createdAt,
-        });
+        const authedUser = authenticateUser(email, password);
+        if (!authedUser) {
+            return { success: false, error: 'Incorrect password. Please try again.' };
+        }
+        setUser({ ...authedUser });
         return { success: true };
     };
 
-    const signup = async ({ name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions }) => {
-        const fields = { name, email, phone, dob, gender, height, weight, bloodType, allergies, conditions };
-        const created = registerUser(fields);
+    const signup = async (userData) => {
+        // ==========================================
+        //  HOW TO CONNECT TO YOUR BACKEND API
+        // ==========================================
+        /*
+        try {
+            const res = await fetch('https://your-api.com/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Signup failed');
+            
+            setUser(data.user);
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+        */
+
+        // MOCK BACKEND LOGIC (Delete when using real API)
+        const created = registerUser(userData);
         if (!created) {
             return { success: false, error: 'An account with that email already exists. Please log in instead.' };
         }
-        setUser({
-            email: created.email, name: created.name, phone: created.phone,
-            dob: created.dob, gender: created.gender, height: created.height,
-            weight: created.weight, bloodType: created.bloodType,
-            allergies: created.allergies, conditions: created.conditions,
-            createdAt: created.createdAt,
-        });
+        setUser({ ...created });
         return { success: true };
     };
 

@@ -190,7 +190,7 @@ CRITICAL RULE 3: If you detect pneumonia, estimate the bounding box of the prima
                                     <span className="material-symbols-outlined">group</span>
                                     <span className="font-medium">Patients</span>
                                 </Link>
-                                <Link className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all" to="/health-reports">
+                                <Link className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all" to="/health-reports-analytics">
                                     <span className="material-symbols-outlined">description</span>
                                     <span className="font-medium">Reports</span>
                                 </Link>

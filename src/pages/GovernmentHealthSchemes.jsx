@@ -236,7 +236,7 @@ Example: ["pm-jay", "jsy"]
             }
 
             const systemPrompt = `You are the "Scheme AI Agent" acting as a helpful guide for Government Health Schemes in India, specifically for ${selectedScheme ? selectedScheme.fullTitle || selectedScheme.title : "Indian Government Schemes"}. 
-CRITICAL RULE: You must ONLY answer questions related to health, wellness, the ArogyaSetu project, or government health schemes. If the query is unrelated (coding, general knowledge), firmly refuse to answer.
+CRITICAL RULE: You must ONLY answer questions related to health, wellness, the Swasthya Mitra project, or government health schemes. If the query is unrelated (coding, general knowledge), firmly refuse to answer.
 Keep your response extremely short, professional, and directly address the user's query about eligibility, documents, or procedure. Use markdown for bolding important parts.`;
 
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
@@ -280,8 +280,8 @@ Keep your response extremely short, professional, and directly address the user'
                         }, 1000);
                         return;
                     }
-                    const systemPrompt = `You are the Scheme AI Agent for ArogyaSetu. You MUST answer in short and concise sentences.
-CRITICAL RULE: ONLY answer questions related to health, the ArogyaSetu project, or Indian Government Health Schemes. If the user asks anything else, firmly refuse to answer.`;
+                    const systemPrompt = `You are the Scheme AI Agent for Swasthya Mitra. You MUST answer in short and concise sentences.
+CRITICAL RULE: ONLY answer questions related to health, the Swasthya Mitra project, or Indian Government Health Schemes. If the user asks anything else, firmly refuse to answer.`;
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -644,7 +644,7 @@ CRITICAL RULE: ONLY answer questions related to health, the ArogyaSetu project, 
                             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex gap-4">
                                 <span className="material-symbols-outlined text-amber-500">info</span>
                                 <p className="text-xs text-amber-700 font-medium leading-relaxed">
-                                    Arogya Setu acts as a facilitator for government schemes. Eligibility and final approval are subject to government verification and policy changes.
+                                    Swasthya Mitra acts as a facilitator for government schemes. Eligibility and final approval are subject to government verification and policy changes.
                                 </p>
                             </div>
                         </div>
